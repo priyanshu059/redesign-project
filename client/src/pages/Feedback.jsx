@@ -53,99 +53,121 @@ const Feedback = () => {
     }
   };
 
-  if (loading) return <Spinner />;
+  if (loading) return <div className="min-h-screen bg-[#09090b] flex items-center justify-center"><Spinner size="lg" /></div>;
 
   const starLabels = ['', 'Terrible', 'Poor', 'Average', 'Good', 'Excellent'];
 
   return (
-    <div className="min-h-screen bg-gray-950 py-12 px-4">
+    <div className="min-h-screen bg-[#09090b] py-12 px-4 font-sans selection:bg-amber-500/30">
       <div className="max-w-xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="text-5xl mb-3">⭐</div>
-          <h1 className="text-3xl font-bold text-white">Your Feedback</h1>
-          <p className="text-gray-400 mt-1">
-            {existing ? 'Update your review for this event' : 'Share your experience'}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-amber-500/10 rounded-3xl mb-6 shadow-lg shadow-amber-500/10 border border-amber-500/20">
+            <span className="text-4xl">⭐</span>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">Event Feedback</h1>
+          <p className="text-zinc-400 text-lg">
+            {existing ? 'Update your review for this event' : 'Share your experience with us'}
           </p>
         </div>
 
         {error && (
-          <div className="bg-red-900/40 border border-red-500/50 text-red-300 rounded-xl px-4 py-3 mb-6 text-sm">
-            ⚠️ {error}
+          <div className="bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-2xl px-5 py-4 mb-8 text-sm flex items-start gap-3 shadow-lg">
+            <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            {error}
           </div>
         )}
 
         {event && (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Event Info */}
-            <div className="bg-gray-900 border border-yellow-500/20 rounded-2xl p-5">
-              <h2 className="text-white font-bold text-lg">{event.title}</h2>
-              <p className="text-gray-400 text-sm mt-1">
-                📆 {formatDate(event.date)} &nbsp;·&nbsp; ⏰ {event.time} &nbsp;·&nbsp; 📍 {event.location}
-              </p>
-            </div>
-
-            {/* Existing feedback note */}
-            {existing && (
-              <div className="bg-indigo-900/30 border border-indigo-500/30 rounded-xl px-4 py-3 text-indigo-300 text-sm">
-                ℹ️ You previously rated this event <strong>{existing.rating}/5</strong>. Update your feedback below.
+          <form onSubmit={handleSubmit} className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 p-8 sm:p-10 rounded-3xl shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div className="relative z-10 space-y-8">
+              {/* Event Info */}
+              <div className="bg-zinc-950/50 border border-amber-500/20 rounded-2xl p-6 transition-all hover:border-amber-500/40">
+                <h2 className="text-white font-bold text-lg mb-2">{event.title}</h2>
+                <div className="flex flex-col gap-1.5">
+                  <p className="text-zinc-400 text-sm flex items-center gap-2">
+                    <span className="text-amber-500">📆</span> {formatDate(event.date)} &nbsp;·&nbsp; {event.time}
+                  </p>
+                  <p className="text-zinc-400 text-sm flex items-center gap-2">
+                    <span className="text-amber-500">📍</span> {event.location}
+                  </p>
+                </div>
               </div>
-            )}
 
-            {/* Star Rating */}
-            <div>
-              <label className="block text-white font-semibold mb-4">How would you rate this event?</label>
-              <div className="flex gap-3 justify-center">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    type="button"
-                    onClick={() => setRating(star)}
-                    onMouseEnter={() => setHovered(star)}
-                    onMouseLeave={() => setHovered(0)}
-                    className="text-5xl transition-transform duration-150 hover:scale-110 focus:outline-none"
-                    title={starLabels[star]}
-                  >
-                    <span className={star <= (hovered || rating) ? 'text-yellow-400' : 'text-gray-700'}>★</span>
-                  </button>
-                ))}
-              </div>
-              {(hovered || rating) > 0 && (
-                <p className="text-center text-yellow-400 text-sm mt-2 font-medium">
-                  {starLabels[hovered || rating]}
-                </p>
+              {/* Existing feedback note */}
+              {existing && (
+                <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-xl px-5 py-4 text-indigo-300 text-sm flex items-start gap-3">
+                  <span className="text-lg">💡</span>
+                  <p>You previously rated this event <strong className="text-white">{existing.rating}/5</strong>. Feel free to update your review.</p>
+                </div>
               )}
-              <p className="text-center text-gray-500 text-xs mt-1">Click a star to rate (1 = Terrible, 5 = Excellent)</p>
-            </div>
 
-            {/* Comment */}
-            <div>
-              <label htmlFor="comment" className="block text-white font-semibold mb-2">
-                Comments <span className="text-gray-500 font-normal">(optional)</span>
-              </label>
-              <textarea
-                id="comment"
-                rows={4}
-                value={comment}
-                onChange={e => setComment(e.target.value)}
-                placeholder="Share your experience, what you loved, what could be improved…"
-                className="w-full bg-gray-900 border border-gray-700 text-white placeholder-gray-600 rounded-xl px-4 py-3 focus:outline-none focus:border-yellow-500/60 resize-none transition-colors"
-              />
-            </div>
+              {/* Star Rating */}
+              <div className="bg-zinc-950/30 rounded-2xl p-6 border border-zinc-800/80 text-center">
+                <label className="block text-white font-bold mb-4 tracking-tight">How would you rate this event?</label>
+                <div className="flex gap-2 justify-center mb-3">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setRating(star)}
+                      onMouseEnter={() => setHovered(star)}
+                      onMouseLeave={() => setHovered(0)}
+                      className={`text-4xl sm:text-5xl transition-all duration-300 focus:outline-none ${star <= (hovered || rating) ? 'scale-110' : 'hover:scale-110'}`}
+                      title={starLabels[star]}
+                    >
+                      <span className={star <= (hovered || rating) ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]' : 'text-zinc-800'}>★</span>
+                    </button>
+                  ))}
+                </div>
+                <div className="h-6">
+                  {(hovered || rating) > 0 && (
+                    <p className="text-amber-400 text-sm font-bold tracking-wider uppercase animate-fade-in">
+                      {starLabels[hovered || rating]}
+                    </p>
+                  )}
+                </div>
+              </div>
 
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={submitting}
-              className="w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-lg hover:-translate-y-0.5"
-            >
-              {submitting ? '⏳ Submitting...' : existing ? '🔄 Update Feedback' : '📤 Submit Feedback'}
-            </button>
+              {/* Comment */}
+              <div>
+                <label htmlFor="comment" className="block text-white font-bold mb-3 tracking-tight">
+                  Additional Comments <span className="text-zinc-500 font-normal text-sm">(optional)</span>
+                </label>
+                <textarea
+                  id="comment"
+                  rows={5}
+                  value={comment}
+                  onChange={e => setComment(e.target.value)}
+                  placeholder="What did you love? What could we improve?"
+                  className="w-full bg-zinc-950/50 border border-zinc-800 text-white placeholder-zinc-600 rounded-2xl px-5 py-4 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all shadow-sm resize-none"
+                />
+              </div>
 
-            <div className="text-center">
-              <Link to={`/events/${eventId}`} className="text-gray-500 hover:text-gray-300 text-sm transition-colors">
-                ← Back to Event
-              </Link>
+              {/* Submit */}
+              <div className="pt-4 border-t border-zinc-800/80">
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full py-4 rounded-xl font-bold text-zinc-900 bg-amber-400 hover:bg-amber-300 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-amber-500/20 hover:-translate-y-0.5 focus:ring-4 focus:ring-amber-500/30 flex items-center justify-center gap-2 text-lg"
+                >
+                  {submitting ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-zinc-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                      Submitting...
+                    </>
+                  ) : (existing ? 'Update Feedback' : 'Submit Feedback')}
+                </button>
+
+                <div className="text-center mt-6">
+                  <Link to={`/events/${eventId}`} className="inline-flex items-center gap-2 text-zinc-500 hover:text-amber-400 text-sm font-medium transition-colors group">
+                    <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    Back to Event
+                  </Link>
+                </div>
+              </div>
             </div>
           </form>
         )}

@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import Spinner from '../components/common/Spinner';
 import { formatDate, formatPrice } from '../utils/helpers';
+import { getStatusColor } from '../utils/helpers';
 
 const EventDetail = () => {
   const { id } = useParams();
@@ -18,49 +19,94 @@ const EventDetail = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <Spinner />;
+  if (loading) return <div className="min-h-screen bg-[#09090b] flex items-center justify-center"><Spinner size="lg" /></div>;
   if (!event) return null;
 
   return (
-    <div className="min-h-screen bg-gray-950 py-8 px-4">
+    <div className="min-h-screen bg-[#09090b] py-12 px-4 font-sans selection:bg-indigo-500/30">
       <div className="max-w-4xl mx-auto">
-        <Link to="/events" className="text-gray-400 hover:text-white text-sm mb-6 inline-block">← Back to Events</Link>
+        <Link to="/events" className="inline-flex items-center gap-2 text-zinc-400 hover:text-indigo-400 text-sm font-medium mb-8 transition-colors group">
+          <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+          Back to Events
+        </Link>
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-900 to-blue-900 border border-gray-700 rounded-2xl p-8 mb-6">
-          <div className="flex gap-3 mb-4">
-            <span className="bg-purple-600 text-white text-xs px-3 py-1 rounded-full">{event.category}</span>
-            <span className="bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded-full">{event.status}</span>
-          </div>
-          <h1 className="text-3xl font-bold text-white mb-3">{event.title}</h1>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-            <div><p className="text-gray-400">Date</p><p className="text-white font-medium">{formatDate(event.date)}</p></div>
-            <div><p className="text-gray-400">Location</p><p className="text-white font-medium">{event.location}</p></div>
-            <div><p className="text-gray-400">Capacity</p><p className="text-white font-medium">{event.capacity}</p></div>
-            <div><p className="text-gray-400">Price</p><p className="text-white font-medium">{formatPrice(event.price)}</p></div>
+        <div className="relative bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-8 sm:p-12 mb-8 shadow-2xl overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          
+          <div className="relative z-10">
+            <div className="flex flex-wrap gap-3 mb-6">
+              <span className="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold px-3 py-1.5 rounded-lg capitalize tracking-wide">{event.category}</span>
+              <span className={`text-xs font-bold px-3 py-1.5 rounded-lg capitalize tracking-wide border ${getStatusColor(event.status).replace('bg-', 'text-').replace('text-white', '')} bg-opacity-10 bg-zinc-800/50 border-current`}>{event.status}</span>
+            </div>
+            
+            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-8 tracking-tight leading-tight">{event.title}</h1>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+              <div className="bg-zinc-950/50 border border-zinc-800/80 rounded-xl p-4">
+                <p className="text-zinc-500 uppercase tracking-wider text-xs font-semibold mb-1.5">Date</p>
+                <p className="text-white font-medium">{formatDate(event.date)}</p>
+              </div>
+              <div className="bg-zinc-950/50 border border-zinc-800/80 rounded-xl p-4">
+                <p className="text-zinc-500 uppercase tracking-wider text-xs font-semibold mb-1.5">Time</p>
+                <p className="text-white font-medium">{event.time || 'TBD'}</p>
+              </div>
+              <div className="bg-zinc-950/50 border border-zinc-800/80 rounded-xl p-4">
+                <p className="text-zinc-500 uppercase tracking-wider text-xs font-semibold mb-1.5">Capacity</p>
+                <p className="text-white font-medium">{event.capacity} seats</p>
+              </div>
+              <div className="bg-zinc-950/50 border border-zinc-800/80 rounded-xl p-4">
+                <p className="text-zinc-500 uppercase tracking-wider text-xs font-semibold mb-1.5">Price</p>
+                <p className="text-white font-medium">{formatPrice(event.price)}</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Description */}
-        <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 mb-6">
-          <h2 className="text-white font-semibold text-lg mb-3">About This Event</h2>
-          <p className="text-gray-300 leading-relaxed">{event.description}</p>
-        </div>
-
-        {/* Venue */}
-        {event.venue && (
-          <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 mb-6">
-            <h2 className="text-white font-semibold text-lg mb-3">📍 Venue</h2>
-            <p className="text-white font-medium">{event.venue.name}</p>
-            <p className="text-gray-400">{event.venue.address}, {event.venue.city}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            {/* Description */}
+            <div className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-3xl p-8">
+              <h2 className="text-white font-bold text-xl mb-4 tracking-tight flex items-center gap-2">
+                <span className="text-xl">ℹ️</span> About This Event
+              </h2>
+              <p className="text-zinc-400 leading-relaxed whitespace-pre-wrap">{event.description}</p>
+            </div>
           </div>
-        )}
 
-        {/* Register Button */}
-        <Link to={`/events/${id}/register`}
-          className="block w-full bg-purple-600 hover:bg-purple-700 text-white text-center font-semibold py-4 rounded-xl transition-colors text-lg">
-          Register for This Event →
-        </Link>
+          <div className="lg:col-span-1 space-y-8">
+            {/* Venue */}
+            {event.venue && (
+              <div className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-3xl p-8">
+                <h2 className="text-white font-bold text-xl mb-4 tracking-tight flex items-center gap-2">
+                  <span className="text-xl">📍</span> Venue
+                </h2>
+                <div className="bg-zinc-950/50 border border-zinc-800/80 rounded-2xl p-5">
+                  <p className="text-white font-semibold text-lg mb-1">{event.venue.name}</p>
+                  <p className="text-zinc-400 text-sm leading-relaxed">{event.venue.address}<br/>{event.venue.city}</p>
+                  
+                  <div className="mt-4 pt-4 border-t border-zinc-800 flex items-center justify-between text-sm">
+                    <span className="text-zinc-500">Capacity</span>
+                    <span className="text-white font-medium">{event.venue.capacity}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {/* Action Card */}
+            <div className="bg-gradient-to-br from-indigo-500/10 to-violet-500/10 border border-indigo-500/20 rounded-3xl p-8 text-center sticky top-24">
+              <h3 className="text-white font-bold text-xl mb-2">Ready to join?</h3>
+              <p className="text-indigo-200/70 text-sm mb-6">Secure your spot before it's too late.</p>
+              
+              <Link to={`/events/${id}/register`}
+                className="block w-full bg-indigo-500 hover:bg-indigo-600 text-white text-center font-bold py-4 rounded-xl transition-all shadow-lg shadow-indigo-500/20 hover:-translate-y-0.5 focus:ring-4 focus:ring-indigo-500/20 flex items-center justify-center gap-2">
+                Register Now
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

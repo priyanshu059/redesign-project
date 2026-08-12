@@ -28,32 +28,60 @@ const UserRegisterEvent = () => {
     }
   };
 
-  if (loading) return <Spinner />;
+  if (loading) return <div className="min-h-screen bg-[#09090b] flex items-center justify-center"><Spinner size="lg" /></div>;
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-      <div className="bg-gray-900 border border-gray-700 rounded-2xl p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold text-white mb-2">Confirm Registration</h1>
-        <p className="text-gray-400 mb-6 text-sm">You're about to register for:</p>
+    <div className="min-h-screen bg-[#09090b] flex items-center justify-center p-4 font-sans selection:bg-indigo-500/30 relative">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none z-0"></div>
+      
+      <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-8 sm:p-10 w-full max-w-md shadow-2xl relative z-10 overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
-        <div className="bg-gray-800 rounded-xl p-5 mb-6">
-          <h2 className="text-white font-semibold text-lg">{event?.title}</h2>
-          <div className="mt-3 space-y-2 text-sm">
-            <p className="text-gray-400">📅 {formatDate(event?.date)}</p>
-            <p className="text-gray-400">📍 {event?.location}</p>
-            <p className="text-gray-400">💰 {formatPrice(event?.price)}</p>
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-500/10 rounded-2xl mb-4 text-2xl border border-indigo-500/20 shadow-sm">
+            🎫
+          </div>
+          <h1 className="text-2xl font-bold text-white mb-1 tracking-tight">Confirm Registration</h1>
+          <p className="text-zinc-400 text-sm">You're about to register for this event</p>
+        </div>
+
+        <div className="bg-zinc-950/50 border border-zinc-800/80 rounded-2xl p-5 mb-6">
+          <h2 className="text-white font-semibold text-lg mb-4">{event?.title}</h2>
+          <div className="space-y-3 text-sm">
+            <p className="text-zinc-300 flex items-center gap-3 border-b border-zinc-800/50 pb-3">
+              <span className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 shrink-0">📅</span> 
+              {formatDate(event?.date)}
+            </p>
+            <p className="text-zinc-300 flex items-center gap-3 border-b border-zinc-800/50 pb-3">
+              <span className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 shrink-0">📍</span> 
+              <span className="truncate">{event?.location}</span>
+            </p>
+            <p className="text-zinc-300 flex items-center gap-3">
+              <span className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 shrink-0">💰</span> 
+              {formatPrice(event?.price)}
+            </p>
           </div>
         </div>
 
-        {error && <div className="bg-red-900/50 border border-red-700 text-red-300 px-4 py-3 rounded-lg mb-4 text-sm">{error}</div>}
+        {error && (
+          <div className="bg-rose-500/10 border border-rose-500/20 text-rose-400 px-4 py-3 rounded-xl mb-6 text-sm flex items-start gap-2 shadow-sm">
+            <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            {error}
+          </div>
+        )}
 
         <div className="flex gap-3">
-          <button onClick={() => navigate(-1)} className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-3 rounded-lg font-medium transition-colors">
+          <button onClick={() => navigate(-1)} className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white py-3.5 rounded-xl font-medium transition-colors border border-zinc-700 hover:border-zinc-600 text-sm">
             Cancel
           </button>
           <button onClick={handleRegister} disabled={submitting}
-            className="flex-1 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white py-3 rounded-lg font-medium transition-colors">
-            {submitting ? 'Registering...' : 'Confirm Registration'}
+            className="flex-1 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 text-white py-3.5 rounded-xl font-medium transition-all shadow-lg shadow-indigo-500/20 hover:-translate-y-0.5 text-sm flex items-center justify-center gap-2">
+            {submitting ? (
+              <>
+                <svg className="animate-spin -ml-1 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                Processing...
+              </>
+            ) : 'Confirm Registration'}
           </button>
         </div>
       </div>

@@ -41,56 +41,60 @@ const EventRegister = () => {
     }
   };
 
-  if (loading) return <Spinner />;
+  if (loading) return <div className="min-h-screen bg-[#09090b] flex items-center justify-center"><Spinner size="lg" /></div>;
 
   return (
-    <div className="min-h-screen bg-gray-950 py-12 px-4">
-      <div className="max-w-lg mx-auto">
+    <div className="min-h-screen bg-[#09090b] py-12 px-4 font-sans selection:bg-indigo-500/30">
+      <div className="max-w-xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="text-5xl mb-3">🎟️</div>
-          <h1 className="text-3xl font-bold text-white">Event Registration</h1>
-          <p className="text-gray-400 mt-1">Confirm your spot for this event</p>
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-500/10 rounded-3xl mb-6 shadow-lg shadow-indigo-500/10 border border-indigo-500/20">
+            <span className="text-4xl">🎟️</span>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">Event Registration</h1>
+          <p className="text-zinc-400 text-lg">Secure your spot for this event</p>
         </div>
 
         {error && (
-          <div className="bg-red-900/40 border border-red-500/50 text-red-300 rounded-xl px-4 py-3 mb-6 text-sm">
-            ⚠️ {error}
+          <div className="bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-2xl px-5 py-4 mb-8 text-sm flex items-start gap-3">
+            <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            {error}
           </div>
         )}
 
         {event && (
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-8 bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 p-6 sm:p-10 rounded-3xl shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"></div>
+            
             {/* Event Info Card */}
-            <div className="bg-gray-900 border border-purple-500/30 rounded-2xl p-5">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-purple-600/20 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">📅</div>
+            <div className="relative z-10 bg-zinc-950/50 border border-indigo-500/20 rounded-2xl p-6 transition-all hover:border-indigo-500/40">
+              <div className="flex flex-col sm:flex-row sm:items-start gap-5">
+                <div className="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0 border border-indigo-500/20">📅</div>
                 <div>
-                  <h2 className="text-white font-bold text-lg">{event.title}</h2>
-                  <p className="text-gray-400 text-sm mt-1">
-                    📆 {formatDate(event.date)} &nbsp;·&nbsp; ⏰ {event.time}
-                  </p>
-                  <p className="text-gray-400 text-sm">
-                    📍 {event.location} &nbsp;·&nbsp; 👥 Capacity: {event.capacity}
-                  </p>
-                  {event.description && (
-                    <p className="text-gray-500 text-sm mt-2">{event.description}</p>
-                  )}
+                  <h2 className="text-white font-bold text-xl mb-2">{event.title}</h2>
+                  <div className="flex flex-col gap-1.5">
+                    <p className="text-zinc-400 text-sm flex items-center gap-2">
+                      <span className="text-indigo-400">📆</span> {formatDate(event.date)} &nbsp;·&nbsp; {event.time}
+                    </p>
+                    <p className="text-zinc-400 text-sm flex items-center gap-2">
+                      <span className="text-indigo-400">📍</span> {event.location} &nbsp;·&nbsp; Capacity: {event.capacity}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Ticket Type Selection */}
-            <div>
-              <label className="block text-white font-semibold mb-3">🎫 Select Ticket Type</label>
-              <div className="grid grid-cols-2 gap-3">
+            <div className="relative z-10">
+              <label className="block text-white font-bold mb-4 tracking-tight">Select Ticket Type</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {TICKET_TYPES.map(({ value, icon, desc }) => (
                   <label
                     key={value}
-                    className={`cursor-pointer rounded-xl border-2 p-4 text-center transition-all duration-200 ${
+                    className={`cursor-pointer rounded-2xl border-2 p-5 flex flex-col items-center text-center transition-all duration-300 ${
                       ticketType === value
-                        ? 'border-purple-500 bg-purple-600/20 shadow-lg shadow-purple-900/30'
-                        : 'border-gray-700 bg-gray-800 hover:border-gray-500'
+                        ? 'border-indigo-500 bg-indigo-500/10 shadow-lg shadow-indigo-500/20 -translate-y-1'
+                        : 'border-zinc-800 bg-zinc-950/50 hover:border-zinc-600 hover:bg-zinc-800/50'
                     }`}
                   >
                     <input
@@ -101,30 +105,38 @@ const EventRegister = () => {
                       onChange={() => setTicketType(value)}
                       className="sr-only"
                     />
-                    <div className="text-3xl mb-1">{icon}</div>
-                    <div className="text-white font-semibold text-sm">{value}</div>
-                    <div className="text-gray-400 text-xs mt-0.5">{desc}</div>
+                    <div className="text-4xl mb-3 filter drop-shadow-sm">{icon}</div>
+                    <div className={`font-bold text-lg mb-1 ${ticketType === value ? 'text-indigo-300' : 'text-white'}`}>{value}</div>
+                    <div className="text-zinc-500 text-xs font-medium">{desc}</div>
                   </label>
                 ))}
               </div>
             </div>
 
             {/* Submit */}
-            <button
-              type="submit"
-              disabled={submitting}
-              className="w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-lg hover:shadow-purple-900/40 hover:-translate-y-0.5"
-            >
-              {submitting ? '⏳ Registering...' : '✅ Confirm Registration'}
-            </button>
-
-            <div className="text-center">
-              <Link
-                to={`/events/${id}`}
-                className="text-gray-500 hover:text-gray-300 text-sm transition-colors"
+            <div className="relative z-10 pt-4 border-t border-zinc-800/80">
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full py-4 rounded-xl font-bold text-white bg-indigo-500 hover:bg-indigo-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-500/20 hover:-translate-y-0.5 focus:ring-4 focus:ring-indigo-500/30 flex items-center justify-center gap-2 text-lg"
               >
-                ← Back to Event Details
-              </Link>
+                {submitting ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    Processing...
+                  </>
+                ) : 'Confirm Registration'}
+              </button>
+
+              <div className="text-center mt-6">
+                <Link
+                  to={`/events/${id}`}
+                  className="inline-flex items-center gap-2 text-zinc-500 hover:text-indigo-400 text-sm font-medium transition-colors group"
+                >
+                  <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                  Back to Event Details
+                </Link>
+              </div>
             </div>
           </form>
         )}

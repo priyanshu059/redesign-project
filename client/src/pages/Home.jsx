@@ -1,5 +1,4 @@
 // src/pages/Home.jsx - Home / Landing Page
-// Matches the original index.html with hero gradient + feature cards
 import { Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
@@ -8,83 +7,119 @@ const Home = () => {
 
   // Feature agent cards (same as original)
   const agents = [
-    { icon: '📋', title: 'Registration Agent', desc: 'Automates attendee registration, ticket allocation, and check-in workflows.', color: 'bg-blue-50', badge: 'bg-blue-100 text-blue-700' },
-    { icon: '🏢', title: 'Venue Agent', desc: 'Optimizes venue utilization, layout, and capacity management in real time.', color: 'bg-green-50', badge: 'bg-green-100 text-green-700' },
-    { icon: '🎤', title: 'Speaker Agent', desc: 'Coordinates speaker schedules, bios, and session assignments seamlessly.', color: 'bg-purple-50', badge: 'bg-purple-100 text-purple-700' },
-    { icon: '🏆', title: 'Sponsorship Agent', desc: 'Tracks sponsor commitments, ROI metrics, and deliverable completion.', color: 'bg-yellow-50', badge: 'bg-yellow-100 text-yellow-700' },
-    { icon: '⚠️', title: 'Incident Agent', desc: 'Monitors and responds to on-site incidents with smart prioritization.', color: 'bg-red-50', badge: 'bg-red-100 text-red-700' },
+    { icon: '📋', title: 'Registration Agent', desc: 'Automates attendee registration, ticket allocation, and check-in workflows.', color: 'from-blue-500/10 to-blue-500/5', badge: 'bg-blue-500/20 text-blue-300', border: 'border-blue-500/20' },
+    { icon: '🏢', title: 'Venue Agent', desc: 'Optimizes venue utilization, layout, and capacity management in real time.', color: 'from-emerald-500/10 to-emerald-500/5', badge: 'bg-emerald-500/20 text-emerald-300', border: 'border-emerald-500/20' },
+    { icon: '🎤', title: 'Speaker Agent', desc: 'Coordinates speaker schedules, bios, and session assignments seamlessly.', color: 'from-purple-500/10 to-purple-500/5', badge: 'bg-purple-500/20 text-purple-300', border: 'border-purple-500/20' },
+    { icon: '🏆', title: 'Sponsorship Agent', desc: 'Tracks sponsor commitments, ROI metrics, and deliverable completion.', color: 'from-amber-500/10 to-amber-500/5', badge: 'bg-amber-500/20 text-amber-300', border: 'border-amber-500/20' },
+    { icon: '⚠️', title: 'Incident Agent', desc: 'Monitors and responds to on-site incidents with smart prioritization.', color: 'from-rose-500/10 to-rose-500/5', badge: 'bg-rose-500/20 text-rose-300', border: 'border-rose-500/20' },
   ];
 
   return (
-    <div className="page-container">
+    <div className="min-h-screen bg-[#09090b] font-sans selection:bg-indigo-500/30 pb-20">
       {/* ---- Hero Section ---- */}
-      <div className="hero-gradient text-white text-center mb-10 relative">
-        {/* Animated rotating circle (like original) */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl">
-          <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-radial opacity-10 animate-spin" style={{ animationDuration: '20s' }} />
-        </div>
-        <div className="relative z-10">
-          <div className="text-6xl mb-4">🤖</div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">EventOps AI</h1>
-          <p className="text-lg text-blue-100 mb-6 max-w-2xl mx-auto">
-            Autonomous Event Management Intelligence Platform — powered by AI agents that handle every aspect of your event.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {user ? (
-              <>
-                <Link to="/dashboard" className="bg-white text-blue-600 hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105">
-                  📊 Go to Dashboard
-                </Link>
-                <Link to="/events" className="border-2 border-white text-white hover:bg-white hover:text-blue-600 font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105">
-                  📅 Browse Events
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link to="/register" className="bg-white text-blue-600 hover:bg-blue-50 font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105">
-                  🚀 Get Started
-                </Link>
-                <Link to="/login" className="border-2 border-white text-white hover:bg-white hover:text-blue-600 font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105">
-                  🔑 Login
-                </Link>
-              </>
-            )}
+      <div className="relative overflow-hidden border-b border-zinc-800 bg-zinc-950">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center opacity-20 mix-blend-luminosity"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#09090b] via-[#09090b]/80 to-transparent"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-40">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-sm font-medium mb-6">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+              </span>
+              EventOps AI 2.0 is live
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-6">
+              Autonomous events,<br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
+                engineered for perfection.
+              </span>
+            </h1>
+            <p className="text-lg md:text-xl text-zinc-400 mb-10 max-w-2xl leading-relaxed">
+              The premier event management platform powered by AI agents. Orchestrate everything from ticketing to on-site incident response without lifting a finger.
+            </p>
+            <div className="flex flex-wrap items-center gap-4">
+              {user ? (
+                <>
+                  <Link to="/dashboard" className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold px-8 py-4 rounded-xl transition-all shadow-lg shadow-indigo-500/25 flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                    Go to Dashboard
+                  </Link>
+                  <Link to="/events" className="bg-zinc-800 hover:bg-zinc-700 text-white font-semibold px-8 py-4 rounded-xl transition-all border border-zinc-700">
+                    Browse Events
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/register" className="bg-white text-zinc-950 hover:bg-zinc-200 font-semibold px-8 py-4 rounded-xl transition-all shadow-lg flex items-center gap-2">
+                    Get Started Free
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                  </Link>
+                  <Link to="/login" className="bg-zinc-900/50 hover:bg-zinc-800 text-white font-semibold px-8 py-4 rounded-xl transition-all border border-zinc-800 backdrop-blur-sm">
+                    Sign In
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* ---- Stats Section ---- */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-        {[['340+', 'Registrations'], ['5', 'AI Agents'], ['99.9%', 'Uptime'], ['12', 'Events']].map(([val, label]) => (
-          <div key={label} className="card text-center p-4">
-            <div className="text-3xl font-bold text-blue-600">{val}</div>
-            <div className="text-sm text-gray-500 mt-1">{label}</div>
-          </div>
-        ))}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-20 mb-24">
+        {/* ---- Stats Section ---- */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-zinc-900/50 border border-zinc-800 backdrop-blur-xl rounded-2xl p-6 shadow-2xl">
+          {[['340+', 'Registrations'], ['5', 'AI Agents'], ['99.9%', 'Uptime'], ['12', 'Events']].map(([val, label]) => (
+            <div key={label} className="text-center p-4">
+              <div className="text-3xl font-bold text-white mb-1">{val}</div>
+              <div className="text-sm font-medium text-zinc-500 uppercase tracking-wider">{label}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* ---- AI Agents Cards ---- */}
-      <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center">🤖 Autonomous AI Agents</h2>
-      <p className="text-gray-500 text-center mb-6">Five specialized agents work 24/7 to manage every aspect of your event</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        {agents.map((agent) => (
-          <div key={agent.title} className={`agent-card ${agent.color} p-6 border border-transparent`}>
-            <div className="text-5xl mb-3">{agent.icon}</div>
-            <span className={`badge ${agent.badge} mb-2`}>AI Powered</span>
-            <h5 className="font-semibold text-gray-800 text-lg mb-2">{agent.title}</h5>
-            <p className="text-gray-600 text-sm">{agent.desc}</p>
-          </div>
-        ))}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+        {/* ---- AI Agents Cards ---- */}
+        <div className="text-center mb-16 max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Autonomous AI Agents</h2>
+          <p className="text-zinc-400 text-lg">Five specialized agents work 24/7 to manage every aspect of your event, seamlessly passing context to one another.</p>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {agents.map((agent) => (
+            <div key={agent.title} className={`bg-gradient-to-br ${agent.color} border ${agent.border} rounded-2xl p-8 transition-transform hover:-translate-y-1 backdrop-blur-sm`}>
+              <div className="text-4xl mb-6 bg-zinc-900/50 w-16 h-16 rounded-xl flex items-center justify-center border border-zinc-800/50 shadow-inner">
+                {agent.icon}
+              </div>
+              <div className="flex items-center gap-2 mb-4">
+                <h5 className="font-bold text-white text-xl">{agent.title}</h5>
+              </div>
+              <div className={`inline-block px-2.5 py-1 rounded-md text-xs font-semibold mb-4 ${agent.badge}`}>
+                AI Powered
+              </div>
+              <p className="text-zinc-400 leading-relaxed">{agent.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* ---- CTA Section ---- */}
       {!user && (
-        <div className="card p-8 text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-          <h3 className="text-2xl font-bold mb-3">Ready to transform your events?</h3>
-          <p className="text-blue-100 mb-5">Join EventOps AI and let intelligent automation handle the hard work.</p>
-          <Link to="/register" className="bg-white text-blue-600 hover:bg-blue-50 font-semibold px-8 py-3 rounded-xl transition-all duration-200 hover:scale-105 inline-block">
-            Start Free Today →
-          </Link>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-900 border border-indigo-500/30 p-12 text-center">
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+            <div className="relative z-10 max-w-2xl mx-auto">
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 tracking-tight">Ready to transform your events?</h3>
+              <p className="text-indigo-200 text-lg mb-10">
+                Join EventOps AI and let intelligent automation handle the hard work, so you can focus on delivering an incredible experience.
+              </p>
+              <Link to="/register" className="bg-white text-indigo-900 hover:bg-zinc-100 font-semibold px-10 py-4 rounded-xl transition-all shadow-xl hover:shadow-indigo-500/25 inline-flex items-center gap-2">
+                Start Free Today
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </Link>
+            </div>
+          </div>
         </div>
       )}
     </div>

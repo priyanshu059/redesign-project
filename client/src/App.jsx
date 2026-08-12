@@ -24,6 +24,8 @@ import FeedbackList from './pages/FeedbackList';
 import Assistant from './pages/Assistant';
 import Contact from './pages/Contact';
 import About from './pages/About';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 
 // Admin Pages
 import AdminEvents from './pages/admin/AdminEvents';
@@ -56,6 +58,8 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<About />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
 
               {/* Protected Routes (login required) */}
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />

@@ -21,7 +21,7 @@ const AdminNotifications = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this notification?')) return;
     await api.delete(`/notifications/${id}`);
-    setMessage('Notification deleted.');
+    setMessage('Notification deleted successfully.');
     fetchNotifications();
     setTimeout(() => setMessage(''), 3000);
   };
@@ -33,66 +33,107 @@ const AdminNotifications = () => {
   );
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen bg-[#09090b] font-sans selection:bg-indigo-500/30">
       <Sidebar />
-      <div className="flex-1 min-h-screen bg-gray-950 p-8">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-white">🔔 Notifications</h1>
-            <p className="text-gray-400 text-sm mt-0.5">{notifications.length} notification{notifications.length !== 1 ? 's' : ''} total</p>
+      <div className="flex-1 p-8 overflow-y-auto">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
+                <span className="text-3xl">🔔</span> Notifications
+              </h1>
+              <p className="text-zinc-400 mt-2 text-sm flex items-center gap-2">
+                <span className="bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded font-bold">{notifications.length}</span> total notifications sent
+              </p>
+            </div>
+            <Link to="/admin/notifications/send" className="inline-flex items-center justify-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-lg shadow-indigo-500/20 hover:-translate-y-0.5">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+              Send Notification
+            </Link>
           </div>
-          <Link to="/admin/notifications/send" className="bg-purple-600 hover:bg-purple-500 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-colors">
-            + Send Notification
-          </Link>
-        </div>
 
-        {message && <div className="bg-green-900/40 border border-green-500/50 text-green-300 rounded-xl px-4 py-3 mb-4 text-sm">✅ {message}</div>}
+          {message && (
+            <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl px-5 py-4 mb-6 text-sm flex items-start gap-3 shadow-sm">
+              <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+              {message}
+            </div>
+          )}
 
-        <div className="mb-4">
-          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="🔍 Search notifications…"
-            className="bg-gray-900 border border-gray-700 focus:border-purple-500 text-white placeholder-gray-600 rounded-xl px-4 py-2.5 text-sm outline-none transition-colors w-full max-w-xs" />
-        </div>
+          {/* Search */}
+          <div className="mb-6 relative max-w-sm">
+            <input
+              type="text" value={search} onChange={e => setSearch(e.target.value)}
+              placeholder="Search notifications..."
+              className="w-full bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 focus:border-indigo-500 text-white placeholder-zinc-500 rounded-xl pl-10 pr-4 py-3 text-sm outline-none transition-all shadow-sm focus:ring-2 focus:ring-indigo-500/20"
+            />
+            <svg className="w-4 h-4 text-zinc-500 absolute left-4 top-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          </div>
 
-        {loading ? <Spinner /> : (
-          <div className="bg-gray-900 border border-gray-700 rounded-2xl overflow-hidden">
-            {filtered.length === 0 ? (
-              <div className="text-center py-16">
-                <div className="text-5xl mb-3">🔔</div>
-                <p className="text-gray-400">No notifications found.</p>
-              </div>
-            ) : (
-              <div className="divide-y divide-gray-800">
-                {filtered.map((n) => (
-                  <div key={n._id} className="flex items-start justify-between gap-4 px-6 py-4 hover:bg-gray-800/40 transition-colors">
-                    <div className="flex items-start gap-4 flex-1 min-w-0">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg flex-shrink-0 ${n.isRead ? 'bg-gray-700' : 'bg-purple-600/30'}`}>
-                        🔔
-                      </div>
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <p className="text-white font-semibold text-sm">{n.title || 'Notification'}</p>
-                          {!n.isRead && (
-                            <span className="bg-purple-600 text-white text-xs px-2 py-0.5 rounded-full">New</span>
-                          )}
+          {loading ? (
+            <div className="flex justify-center py-20"><Spinner size="lg" /></div>
+          ) : (
+            <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl relative">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"></div>
+              
+              {filtered.length === 0 ? (
+                <div className="text-center py-20 relative z-10">
+                  <div className="text-6xl mb-6 filter drop-shadow-lg opacity-50">🔔</div>
+                  <h3 className="text-xl font-bold text-white mb-2">No notifications found</h3>
+                  <p className="text-zinc-500 mb-8 max-w-md mx-auto">
+                    {search ? 'No notifications match your search query.' : "No notifications have been sent yet."}
+                  </p>
+                  {!search && (
+                    <Link to="/admin/notifications/send" className="inline-flex items-center justify-center bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-3 rounded-xl font-medium transition-colors border border-zinc-700">
+                      Send your first notification
+                    </Link>
+                  )}
+                </div>
+              ) : (
+                <div className="divide-y divide-zinc-800/80 relative z-10">
+                  {filtered.map((n) => (
+                    <div key={n._id} className="flex items-start justify-between gap-4 px-6 py-5 hover:bg-zinc-800/30 transition-colors group">
+                      <div className="flex items-start gap-4 flex-1 min-w-0">
+                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl flex-shrink-0 transition-colors border ${n.isRead ? 'bg-zinc-800/50 border-zinc-700/50 text-zinc-500' : 'bg-indigo-500/20 border-indigo-500/30 text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.2)]'}`}>
+                          🔔
                         </div>
-                        <p className="text-gray-400 text-sm mt-0.5 line-clamp-2">{n.message}</p>
-                        <p className="text-gray-600 text-xs mt-1">
-                          To: {n.user?.name || 'N/A'} · {n.createdAt ? new Date(n.createdAt).toLocaleString() : '—'}
-                        </p>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between gap-4 mb-1">
+                            <div className="flex items-center gap-3 flex-wrap">
+                              <h3 className={`font-bold ${n.isRead ? 'text-zinc-300' : 'text-white'}`}>
+                                {n.title || 'Notification'}
+                              </h3>
+                              {!n.isRead && (
+                                <span className="bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">New</span>
+                              )}
+                            </div>
+                            <span className="text-zinc-500 text-xs font-medium whitespace-nowrap">
+                              {n.createdAt ? new Date(n.createdAt).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'}
+                            </span>
+                          </div>
+                          <p className={`text-sm mb-2 ${n.isRead ? 'text-zinc-500' : 'text-zinc-300'}`}>{n.message}</p>
+                          <div className="flex items-center gap-2 text-xs font-medium">
+                            <span className="text-zinc-600">Sent to:</span>
+                            <span className="px-2 py-0.5 rounded-md bg-zinc-800 border border-zinc-700 text-zinc-300">
+                              {n.user?.name || 'N/A'}
+                            </span>
+                          </div>
+                        </div>
                       </div>
+                      <button
+                        onClick={() => handleDelete(n._id)}
+                        className="w-8 h-8 rounded-lg bg-zinc-800 hover:bg-rose-500/20 text-zinc-400 hover:text-rose-400 border border-zinc-700 hover:border-rose-500/30 flex items-center justify-center transition-all shadow-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 flex-shrink-0"
+                        title="Delete Notification"
+                      >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                      </button>
                     </div>
-                    <button
-                      onClick={() => handleDelete(n._id)}
-                      className="text-red-400 hover:text-red-300 text-xs border border-red-500/30 px-2 py-1 rounded-lg transition-colors flex-shrink-0"
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

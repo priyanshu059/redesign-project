@@ -48,72 +48,164 @@ const AdminIncidentForm = () => {
     }
   };
 
-  const inputCls = "w-full bg-gray-800 border border-gray-700 focus:border-red-500 text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none transition-colors";
-  const selectCls = "w-full bg-gray-800 border border-gray-700 focus:border-red-500 text-white rounded-xl px-4 py-3 text-sm outline-none transition-colors";
+  const inputCls = "w-full bg-zinc-950/50 border border-zinc-800 focus:border-rose-500 text-white placeholder-zinc-600 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-rose-500/20 transition-all shadow-inner";
+  const selectCls = "w-full bg-zinc-950/50 border border-zinc-800 focus:border-rose-500 text-white rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-rose-500/20 transition-all shadow-inner appearance-none cursor-pointer";
 
   const SEVERITY_OPTS = [
-    { v: 'Low', icon: '🟢' }, { v: 'Medium', icon: '🟡' }, { v: 'High', icon: '🟠' }, { v: 'Critical', icon: '🔴' },
+    { v: 'Low', color: 'emerald' }, 
+    { v: 'Medium', color: 'amber' }, 
+    { v: 'High', color: 'orange' }, 
+    { v: 'Critical', color: 'rose' },
   ];
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen bg-[#09090b] font-sans selection:bg-rose-500/30">
       <Sidebar />
-      <div className="flex-1 min-h-screen bg-gray-950 p-8">
-        <div className="max-w-2xl mx-auto">
-          <div className="flex items-center gap-3 mb-8">
-            <Link to="/admin/incidents" className="text-gray-500 hover:text-white transition-colors">←</Link>
-            <h1 className="text-2xl font-bold text-white">{isEdit ? '✏️ Edit Incident' : '⚠️ Report Incident'}</h1>
+      <div className="flex-1 p-8 overflow-y-auto">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="flex items-center gap-4 mb-8">
+            <Link to="/admin/incidents" className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 hover:border-zinc-700 transition-all shadow-sm">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+            </Link>
+            <div>
+              <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+                {isEdit ? '✏️ Edit Incident' : '⚠️ Report Incident'}
+              </h1>
+              <p className="text-zinc-500 text-sm mt-1">Record issues, track severity, and manage resolutions</p>
+            </div>
           </div>
-          {loading ? <Spinner /> : (
-            <form onSubmit={handleSubmit}>
-              {error && <div className="bg-red-900/40 border border-red-500/50 text-red-300 rounded-xl px-4 py-3 text-sm mb-4">⚠️ {error}</div>}
-              <div className="bg-gray-900 border border-gray-700 rounded-2xl p-6 space-y-4 mb-6">
-                <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-1.5">🎯 Related Event *</label>
-                  <select name="event" value={form.event} onChange={handleChange} required className={selectCls}>
-                    <option value="">Select an event…</option>
-                    {events.map(e => <option key={e._id} value={e._id}>{e.title}</option>)}
-                  </select>
+
+          {loading ? (
+            <div className="flex justify-center py-20"><Spinner size="lg" /></div>
+          ) : (
+            <form onSubmit={handleSubmit} className="relative">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500/5 rounded-full blur-3xl pointer-events-none z-0"></div>
+              
+              {error && (
+                <div className="bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-2xl px-5 py-4 text-sm flex items-start gap-3 shadow-sm relative z-10 mb-6">
+                  <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  {error}
                 </div>
-                <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-1.5">📌 Title *</label>
-                  <input name="title" value={form.title} onChange={handleChange} placeholder="Brief title of the incident" required className={inputCls} />
-                </div>
-                <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-1.5">📝 Description *</label>
-                  <textarea name="description" value={form.description} onChange={handleChange} rows={4} placeholder="Detailed description of what happened…" required
-                    className="w-full bg-gray-800 border border-gray-700 focus:border-red-500 text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none resize-none transition-colors" />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-gray-300 text-sm font-medium mb-2">🚦 Severity</label>
-                    <div className="flex flex-wrap gap-2">
-                      {SEVERITY_OPTS.map(({ v, icon }) => (
-                        <label key={v} className={`cursor-pointer px-3 py-1.5 rounded-lg border text-xs font-medium transition-all ${form.severity === v ? 'border-red-500 bg-red-600/20 text-red-300' : 'border-gray-700 bg-gray-800 text-gray-400 hover:border-gray-500'}`}>
-                          <input type="radio" name="severity" value={v} checked={form.severity === v} onChange={handleChange} className="sr-only" />
-                          {icon} {v}
-                        </label>
-                      ))}
+              )}
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
+                {/* Main Content */}
+                <div className="lg:col-span-2 space-y-6">
+                  <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
+                    <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
+                      <span className="text-rose-400">📄</span> Incident Report
+                    </h3>
+                    
+                    <div className="space-y-5">
+                      <div>
+                        <label className="block text-zinc-400 text-xs font-bold uppercase tracking-wider mb-2">Target Event <span className="text-rose-500">*</span></label>
+                        <div className="relative">
+                          <select name="event" value={form.event} onChange={handleChange} required className={selectCls}>
+                            <option value="">Select an event…</option>
+                            {events.map(e => <option key={e._id} value={e._id}>{e.title}</option>)}
+                          </select>
+                          <svg className="w-4 h-4 text-zinc-500 absolute right-4 top-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-zinc-400 text-xs font-bold uppercase tracking-wider mb-2">Incident Title <span className="text-rose-500">*</span></label>
+                        <input name="title" value={form.title} onChange={handleChange} placeholder="Brief title of the incident" required className={inputCls} />
+                      </div>
+
+                      <div>
+                        <label className="block text-zinc-400 text-xs font-bold uppercase tracking-wider mb-2">Detailed Description <span className="text-rose-500">*</span></label>
+                        <textarea 
+                          name="description" value={form.description} onChange={handleChange} rows={5} 
+                          placeholder="Provide a detailed description of what happened, who was involved, and any immediate actions taken..." required
+                          className="w-full bg-zinc-950/50 border border-zinc-800 focus:border-rose-500 text-white placeholder-zinc-600 rounded-xl px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-rose-500/20 transition-all shadow-inner" 
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-gray-300 text-sm font-medium mb-1.5">📊 Status</label>
-                    <select name="status" value={form.status} onChange={handleChange} className={selectCls}>
-                      {['Open', 'In Progress', 'Resolved', 'Closed'].map(s => <option key={s}>{s}</option>)}
-                    </select>
+                </div>
+
+                {/* Sidebar Setup */}
+                <div className="space-y-6">
+                  <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
+                    <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
+                      <span className="text-rose-400">⚙️</span> Assessment
+                    </h3>
+                    
+                    <div className="space-y-6">
+                      <div>
+                        <label className="block text-zinc-400 text-xs font-bold uppercase tracking-wider mb-3">Severity Level</label>
+                        <div className="flex flex-col gap-2">
+                          {SEVERITY_OPTS.map(({ v, color }) => (
+                            <label key={v} className={`relative flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all ${
+                              form.severity === v 
+                                ? `bg-${color}-500/10 border-${color}-500/30 text-${color}-400 shadow-sm` 
+                                : 'bg-zinc-950/50 border-zinc-800 text-zinc-400 hover:bg-zinc-800/50 hover:border-zinc-700'
+                            }`}>
+                              <div className="flex items-center gap-3">
+                                <span className={`w-2 h-2 rounded-full bg-${color}-500 ${form.severity === v && v === 'Critical' ? 'animate-pulse' : ''}`}></span>
+                                <span className="font-bold text-sm">{v}</span>
+                              </div>
+                              <input type="radio" name="severity" value={v} checked={form.severity === v} onChange={handleChange} className="sr-only" />
+                              {form.severity === v && (
+                                <svg className={`w-4 h-4 text-${color}-400`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                              )}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-zinc-400 text-xs font-bold uppercase tracking-wider mb-2">Resolution Status</label>
+                        <div className="relative">
+                          <select name="status" value={form.status} onChange={handleChange} className={selectCls}>
+                            {['Open', 'In Progress', 'Resolved', 'Closed'].map(s => <option key={s}>{s}</option>)}
+                          </select>
+                          <svg className="w-4 h-4 text-zinc-500 absolute right-4 top-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
+                    <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
+                      <span className="text-rose-400">✅</span> Resolution
+                    </h3>
+                    
+                    <div>
+                      <label className="block text-zinc-400 text-xs font-bold uppercase tracking-wider mb-2">Resolution Notes</label>
+                      <textarea 
+                        name="resolution" value={form.resolution} onChange={handleChange} rows={4} 
+                        placeholder="How was this incident resolved? (fill in when resolved)"
+                        className="w-full bg-zinc-950/50 border border-zinc-800 focus:border-rose-500 text-white placeholder-zinc-600 rounded-xl px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-rose-500/20 transition-all shadow-inner" 
+                      />
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm flex flex-col gap-3">
+                    <button 
+                      type="submit" disabled={submitting} 
+                      className="w-full bg-rose-500 hover:bg-rose-600 text-white py-3.5 rounded-xl font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-rose-500/20 hover:-translate-y-0.5 focus:ring-4 focus:ring-rose-500/30 flex items-center justify-center gap-2"
+                    >
+                      {submitting ? (
+                        <>
+                          <svg className="animate-spin -ml-1 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                          Saving...
+                        </>
+                      ) : (
+                        isEdit ? 'Update Incident' : 'Report Incident'
+                      )}
+                    </button>
+                    <Link 
+                      to="/admin/incidents" 
+                      className="w-full text-center border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white py-3.5 rounded-xl font-medium transition-colors"
+                    >
+                      Cancel
+                    </Link>
                   </div>
                 </div>
-                <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-1.5">✅ Resolution Notes</label>
-                  <textarea name="resolution" value={form.resolution} onChange={handleChange} rows={3} placeholder="How was this incident resolved? (fill in when resolved)"
-                    className="w-full bg-gray-800 border border-gray-700 focus:border-red-500 text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none resize-none transition-colors" />
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <button type="submit" disabled={submitting} className="flex-1 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white py-3 rounded-xl font-bold transition-all disabled:opacity-60">
-                  {submitting ? '⏳ Saving...' : isEdit ? '✅ Update Incident' : '⚠️ Report Incident'}
-                </button>
-                <Link to="/admin/incidents" className="flex-1 text-center border border-gray-600 hover:border-gray-400 text-gray-300 py-3 rounded-xl font-medium transition-colors">Cancel</Link>
               </div>
             </form>
           )}

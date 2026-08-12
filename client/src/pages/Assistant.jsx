@@ -24,16 +24,16 @@ const SafeMessage = ({ text }) => {
     if (line.trim().startsWith('• ') || line.trim().startsWith('- ')) {
       const content = line.replace(/^[•\-]\s*/, '');
       elements.push(
-        <li key={i} className="ml-4 list-disc">
+        <li key={i} className="ml-4 list-disc mt-1 text-zinc-300">
           {renderBold(content)}
         </li>
       );
     } else if (line.trim()) {
-      elements.push(<span key={i}>{renderBold(line)}<br /></span>);
+      elements.push(<span key={i} className="block mt-2 text-zinc-300">{renderBold(line)}</span>);
     }
   });
 
-  return <>{elements}</>;
+  return <div className="space-y-1">{elements}</div>;
 };
 
 // Convert **bold** and *bold* to <strong> tags safely
@@ -41,10 +41,10 @@ const renderBold = (text) => {
   const parts = text.split(/(\*\*.*?\*\*|\*.*?\*)/g);
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={i}>{part.slice(2, -2)}</strong>;
+      return <strong key={i} className="font-bold text-white">{part.slice(2, -2)}</strong>;
     }
     if (part.startsWith('*') && part.endsWith('*')) {
-      return <strong key={i}>{part.slice(1, -1)}</strong>;
+      return <strong key={i} className="font-bold text-white">{part.slice(1, -1)}</strong>;
     }
     return part;
   });
@@ -126,35 +126,45 @@ const Assistant = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 py-6 px-4">
-      <div className="max-w-3xl mx-auto h-[85vh] flex flex-col">
+    <div className="min-h-screen bg-[#09090b] py-8 px-4 font-sans selection:bg-indigo-500/30">
+      <div className="max-w-4xl mx-auto h-[85vh] flex flex-col relative z-10">
+        
+        {/* Ambient background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl h-full bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none -z-10"></div>
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-t-2xl px-6 py-4 flex items-center justify-between flex-shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-2xl">🤖</div>
+        <div className="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-t-3xl px-6 py-5 flex items-center justify-between flex-shrink-0 shadow-sm relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 opacity-80"></div>
+          
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
+              🤖
+            </div>
             <div>
-              <h1 className="text-white font-bold">EventOps AI Assistant</h1>
-              <p className="text-indigo-200 text-xs">Powered by Gemini 2.0 Flash</p>
+              <h1 className="text-white font-bold text-xl tracking-tight">EventOps AI</h1>
+              <div className="flex items-center gap-2 mt-0.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+                <p className="text-zinc-400 text-xs font-medium">Powered by Gemini 2.0 Flash</p>
+              </div>
             </div>
           </div>
           <button
             onClick={clearChat}
-            className="bg-white/10 hover:bg-white/20 text-white text-sm px-3 py-1.5 rounded-lg transition-colors"
+            className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700 hover:border-zinc-600 text-sm px-4 py-2 rounded-xl transition-all shadow-sm"
             title="Clear chat"
           >
-            🗑️ Clear
+            Clear Chat
           </button>
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-gray-900 border-x border-gray-700 px-4 py-3 flex flex-wrap gap-2 flex-shrink-0">
+        <div className="bg-zinc-900/60 backdrop-blur-md border-x border-zinc-800 px-6 py-4 flex flex-wrap gap-2.5 flex-shrink-0">
           {QUICK_ACTIONS.map(({ label, msg }) => (
             <button
               key={msg}
               onClick={() => sendMessage(msg)}
               disabled={sending}
-              className="bg-gray-800 hover:bg-indigo-600 border border-gray-700 hover:border-indigo-500 text-gray-300 hover:text-white text-xs px-3 py-1.5 rounded-full transition-all duration-200 disabled:opacity-50"
+              className="bg-zinc-950/50 hover:bg-indigo-500/10 border border-zinc-800 hover:border-indigo-500/40 text-zinc-400 hover:text-indigo-300 text-xs font-medium px-4 py-2 rounded-xl transition-all duration-200 disabled:opacity-50 whitespace-nowrap shadow-sm hover:shadow-indigo-500/5 hover:-translate-y-0.5"
             >
               {label}
             </button>
@@ -162,14 +172,14 @@ const Assistant = () => {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 bg-gray-900 border-x border-gray-700 overflow-y-auto px-4 py-4 space-y-4">
+        <div className="flex-1 bg-zinc-950/80 backdrop-blur-xl border-x border-zinc-800 overflow-y-auto px-4 sm:px-6 py-6 space-y-6 scrollbar-hide">
           {messages.map((msg) => {
             if (msg.sender === 'typing') return (
-              <div key={msg.id} className="flex items-end gap-2">
-                <div className="w-8 h-8 bg-indigo-600/30 rounded-full flex items-center justify-center text-sm flex-shrink-0">🤖</div>
-                <div className="bg-gray-800 rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1 items-center">
+              <div key={msg.id} className="flex items-end gap-3 animate-fade-in-up">
+                <div className="w-10 h-10 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-xl flex items-center justify-center text-lg flex-shrink-0">🤖</div>
+                <div className="bg-zinc-900 border border-zinc-800 rounded-2xl rounded-bl-sm px-5 py-4 flex gap-1.5 items-center shadow-md">
                   {[0, 1, 2].map(i => (
-                    <span key={i} className="w-2 h-2 bg-gray-500 rounded-full inline-block animate-bounce" style={{ animationDelay: `${i * 0.2}s` }} />
+                    <span key={i} className="w-2.5 h-2.5 bg-indigo-500/50 rounded-full inline-block animate-bounce" style={{ animationDelay: `${i * 0.15}s` }} />
                   ))}
                 </div>
               </div>
@@ -177,27 +187,33 @@ const Assistant = () => {
 
             const isUser = msg.sender === 'user';
             return (
-              <div key={msg.id} className={`flex items-end gap-2 ${isUser ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm flex-shrink-0 ${isUser ? 'bg-purple-600' : 'bg-indigo-600/30'}`}>
+              <div key={msg.id} className={`flex items-end gap-3 ${isUser ? 'flex-row-reverse' : 'animate-fade-in-up'}`}>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0 border shadow-sm ${
+                  isUser 
+                    ? 'bg-indigo-500 text-white border-indigo-600' 
+                    : 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20'
+                }`}>
                   {isUser ? '👤' : '🤖'}
                 </div>
-                <div className={`group max-w-[75%] relative ${isUser ? 'items-end' : 'items-start'} flex flex-col`}>
-                  <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
+                
+                <div className={`group max-w-[80%] sm:max-w-[70%] relative ${isUser ? 'items-end' : 'items-start'} flex flex-col`}>
+                  <div className={`px-5 py-4 rounded-3xl text-[15px] leading-relaxed shadow-md ${
                     isUser
-                      ? 'bg-purple-600 text-white rounded-br-sm'
-                      : 'bg-gray-800 text-gray-200 rounded-bl-sm'
+                      ? 'bg-indigo-500 text-white rounded-br-sm border border-indigo-600'
+                      : 'bg-zinc-900 border border-zinc-800 rounded-bl-sm'
                   }`}>
                     {isUser ? msg.text : <SafeMessage text={msg.text} />}
                   </div>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-gray-600 text-xs">{msg.time}</span>
+                  
+                  <div className={`flex items-center gap-2 mt-1.5 px-1 ${isUser ? 'flex-row-reverse' : ''}`}>
+                    <span className="text-zinc-500 text-xs font-medium">{msg.time}</span>
                     {!isUser && (
                       <button
                         onClick={() => copyText(msg.text)}
-                        className="opacity-0 group-hover:opacity-100 text-gray-500 hover:text-gray-300 text-xs transition-opacity"
-                        title="Copy"
+                        className="opacity-0 group-hover:opacity-100 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 text-xs px-2 py-1 rounded transition-all"
+                        title="Copy text"
                       >
-                        📋
+                        Copy
                       </button>
                     )}
                   </div>
@@ -209,23 +225,28 @@ const Assistant = () => {
         </div>
 
         {/* Input */}
-        <div className="bg-gray-900 border border-gray-700 rounded-b-2xl px-4 py-3 flex gap-3 items-center flex-shrink-0">
+        <div className="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-b-3xl p-4 flex gap-3 items-center flex-shrink-0 shadow-[0_-4px_10px_rgba(0,0,0,0.1)] relative">
           <input
             ref={inputRef}
             type="text"
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input); } }}
-            placeholder="Type your question…"
+            placeholder="Ask EventOps AI anything..."
             disabled={sending}
-            className="flex-1 bg-gray-800 border border-gray-700 focus:border-indigo-500 text-white placeholder-gray-500 rounded-xl px-4 py-3 text-sm outline-none transition-colors"
+            className="flex-1 bg-zinc-950/50 border border-zinc-800 focus:border-indigo-500 text-white placeholder-zinc-500 rounded-2xl px-5 py-4 text-[15px] outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all shadow-inner"
           />
           <button
             onClick={() => sendMessage(input)}
             disabled={sending || !input.trim()}
-            className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white px-5 py-3 rounded-xl font-medium text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-indigo-900/40"
+            className="bg-indigo-500 hover:bg-indigo-600 text-white p-4 rounded-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-500/20 hover:-translate-y-0.5 focus:ring-4 focus:ring-indigo-500/30 flex items-center justify-center shrink-0"
+            title="Send Message"
           >
-            {sending ? '⏳' : '📤 Send'}
+            {sending ? (
+              <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            ) : (
+              <svg className="w-6 h-6 ml-1 -mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+            )}
           </button>
         </div>
       </div>
