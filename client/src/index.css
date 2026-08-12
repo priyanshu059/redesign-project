@@ -1,0 +1,139 @@
+/* ============================================================
+   src/index.css - Global Styles for EventOps MERN
+   ============================================================
+   This file:
+   1. Loads Tailwind CSS (base, components, utilities)
+   2. Adds global custom styles matching the original design
+   3. Uses Bootstrap's color scheme translated to CSS variables
+   ============================================================ */
+/* ---- Google Fonts (must be first — @import must precede all other CSS statements) ---- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- CSS Variables (colors from original Bootstrap theme) ---- */
+:root {
+  --primary: #0d6efd;
+  --primary-dark: #0a58ca;
+  --secondary: #6c757d;
+  --success: #198754;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --info: #0dcaf0;
+  --dark: #212529;
+  --light: #f8f9fa;
+}
+
+/* ---- Base Styles ---- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fa;
+  color: #212529;
+  min-height: 100vh;
+}
+
+/* ---- Custom Utility Classes (matching original CSS) ---- */
+@layer components {
+  /* Primary button - same blue as Bootstrap's btn-primary */
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 inline-flex items-center gap-2;
+  }
+
+  /* Outline button */
+  .btn-outline {
+    @apply border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-medium px-4 py-2 rounded-lg transition-all duration-200;
+  }
+
+  /* Danger button */
+  .btn-danger {
+    @apply bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200;
+  }
+
+  /* Card (matches Bootstrap card with shadow) */
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden;
+  }
+
+  /* Card body padding */
+  .card-body {
+    @apply p-4;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  /* Alert */
+  .alert {
+    @apply p-4 rounded-lg mb-4 flex items-start gap-2;
+  }
+  .alert-success { @apply bg-green-50 text-green-800 border border-green-200; }
+  .alert-danger  { @apply bg-red-50 text-red-800 border border-red-200; }
+  .alert-warning { @apply bg-yellow-50 text-yellow-800 border border-yellow-200; }
+  .alert-info    { @apply bg-blue-50 text-blue-800 border border-blue-200; }
+
+  /* Form input */
+  .form-input {
+    @apply w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200;
+  }
+
+  /* Form label */
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+
+  /* Table */
+  .table-container {
+    @apply overflow-x-auto rounded-xl shadow-sm;
+  }
+  .table {
+    @apply w-full text-sm text-left;
+  }
+  .table thead {
+    @apply bg-gray-50 text-gray-600 uppercase text-xs;
+  }
+  .table th {
+    @apply px-4 py-3 font-semibold;
+  }
+  .table td {
+    @apply px-4 py-3 border-t border-gray-100;
+  }
+  .table tbody tr {
+    @apply hover:bg-gray-50 transition-colors;
+  }
+
+  /* Hero gradient (from original index.html) */
+  .hero-gradient {
+    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 50%, #d63384 100%);
+    @apply rounded-2xl p-12 relative overflow-hidden shadow-2xl;
+  }
+
+  /* Agent card hover effect */
+  .agent-card {
+    @apply rounded-2xl shadow-md bg-white transition-all duration-300 hover:-translate-y-2 hover:shadow-xl overflow-hidden;
+  }
+
+  /* Page container */
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 py-6;
+  }
+}
+
+/* ---- Animations ---- */
+.fade-in { animation: fadeIn 0.3s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ---- Scrollbar styling ---- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #a1a1a1; }

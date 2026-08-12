@@ -1,0 +1,280 @@
+{
+    "user": [
+        {
+            "id": 1,
+            "name": "Admin User",
+            "email": "admin@eventops.com",
+            "password_hash": "scrypt:32768:8:1$hcv1rlWiMHsEvKVQ$0cb7f9ecf7339782cced8daff80e1ae6d948ccce4bd3a765a5ae4339e38f7818f187ce43be78008ef7c3fc7261290dd346c2abd82333067f5bcf4c20b84eced0",
+            "role": "admin",
+            "created_at": "2026-07-02 15:01:29.027428"
+        },
+        {
+            "id": 2,
+            "name": "Regular User",
+            "email": "user@eventops.com",
+            "password_hash": "scrypt:32768:8:1$0UYh86quxvORWuWS$6a946dcb7326803ab1719f456b36f920a0b9adc8c5c7c9ca41f2dfc59e0ec25277d8af54f56841c7af623667f87effc05a8259cbd351fd26a68bcfa6a6368a43",
+            "role": "user",
+            "created_at": "2026-07-02 15:01:29.027432"
+        },
+        {
+            "id": 3,
+            "name": "Priyanshu Mohanty",
+            "email": "priyanshumohanty059@gmail.com",
+            "password_hash": "scrypt:32768:8:1$G1DwpubK6VACNmb7$052c5a128a56025fd291692398a1641f97c35f53e2592130dc018264d9e10cd027556641183607ec950787e395077ef59ab9347c5583b24244d8c1f9acaae41f",
+            "role": "user",
+            "created_at": "2026-07-07 15:22:37.346934"
+        },
+        {
+            "id": 4,
+            "name": "Priyanshu Mohanty",
+            "email": "manasmohanty058@gmail.com",
+            "password_hash": "scrypt:32768:8:1$MrSqcknbHVHIJ29u$09838dac89c95ee512f94e962261cdf1639e607d34a9749f970002f27b38b6d4b68e0691fd9a5f85639c6f913c24686db31477efdf3e08940bd2f8f749963b9e",
+            "role": "admin",
+            "created_at": "2026-07-21 15:23:52.589227"
+        }
+    ],
+    "event": [
+        {
+            "id": 1,
+            "title": "AI Summit 2026",
+            "description": "The future of AI in business",
+            "date": "2026-07-10",
+            "time": "09:00 AM",
+            "location": "Main Hall",
+            "capacity": 200,
+            "status": "upcoming",
+            "created_at": "2026-07-02 15:01:29.031864"
+        },
+        {
+            "id": 2,
+            "title": "Hackathon Night",
+            "description": "24-hour coding challenge",
+            "date": "2026-07-15",
+            "time": "06:00 PM",
+            "location": "Room B",
+            "capacity": 50,
+            "status": "upcoming",
+            "created_at": "2026-07-02 15:01:29.031867"
+        },
+        {
+            "id": 3,
+            "title": "Sponsor Meet & Greet",
+            "description": "Networking with sponsors",
+            "date": "2026-07-20",
+            "time": "11:00 AM",
+            "location": "Exhibition Hall",
+            "capacity": 100,
+            "status": "upcoming",
+            "created_at": "2026-07-02 15:01:29.031867"
+        }
+    ],
+    "registration": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "event_id": 1,
+            "ticket_type": "VIP",
+            "status": "registered",
+            "checked_in": 0,
+            "registered_at": "2026-07-02 15:01:29.038697"
+        },
+        {
+            "id": 2,
+            "user_id": 2,
+            "event_id": 2,
+            "ticket_type": "Standard",
+            "status": "registered",
+            "checked_in": 0,
+            "registered_at": "2026-07-02 15:01:29.038700"
+        },
+        {
+            "id": 3,
+            "user_id": 1,
+            "event_id": 2,
+            "ticket_type": "VIP",
+            "status": "registered",
+            "checked_in": 0,
+            "registered_at": "2026-07-02 15:01:29.038701"
+        },
+        {
+            "id": 4,
+            "user_id": 2,
+            "event_id": 2,
+            "ticket_type": "Standard",
+            "status": "registered",
+            "checked_in": 0,
+            "registered_at": "2026-07-02 15:01:29.038702"
+        },
+        {
+            "id": 5,
+            "user_id": 2,
+            "event_id": 1,
+            "ticket_type": "VIP",
+            "status": "registered",
+            "checked_in": 0,
+            "registered_at": "2026-07-02 15:01:29.038702"
+        },
+        {
+            "id": 6,
+            "user_id": 3,
+            "event_id": 2,
+            "ticket_type": "VIP",
+            "status": "registered",
+            "checked_in": 0,
+            "registered_at": "2026-08-06 13:37:42.881278"
+        }
+    ],
+    "venue": [
+        {
+            "id": 1,
+            "name": "Main Hall",
+            "capacity": 60,
+            "utilization": 0.36,
+            "status": "available",
+            "created_at": "2026-07-02 15:01:29.047011"
+        },
+        {
+            "id": 2,
+            "name": "Room A",
+            "capacity": 305,
+            "utilization": 0.68,
+            "status": "available",
+            "created_at": "2026-07-02 15:01:29.047013"
+        },
+        {
+            "id": 3,
+            "name": "Room B",
+            "capacity": 344,
+            "utilization": 0.7,
+            "status": "available",
+            "created_at": "2026-07-02 15:01:29.047013"
+        },
+        {
+            "id": 4,
+            "name": "Exhibition Hall",
+            "capacity": 192,
+            "utilization": 0.87,
+            "status": "available",
+            "created_at": "2026-07-02 15:01:29.047014"
+        },
+        {
+            "id": 5,
+            "name": "Breakout Area",
+            "capacity": 74,
+            "utilization": 0.42,
+            "status": "available",
+            "created_at": "2026-07-02 15:01:29.047014"
+        }
+    ],
+    "speaker": [
+        {
+            "id": 1,
+            "name": "Dr. Smith",
+            "bio": "AI Researcher",
+            "session_title": "Keynote: Future of AI",
+            "schedule": "Day 1 9:00",
+            "availability": 1,
+            "created_at": "2026-07-02 15:01:29.045739"
+        },
+        {
+            "id": 2,
+            "name": "Prof. Lee",
+            "bio": "Data Scientist",
+            "session_title": "Data Ethics",
+            "schedule": "Day 1 11:00",
+            "availability": 1,
+            "created_at": "2026-07-02 15:01:29.045740"
+        },
+        {
+            "id": 3,
+            "name": "Ms. Jones",
+            "bio": "Event Manager",
+            "session_title": "Operational Excellence",
+            "schedule": "Day 2 10:00",
+            "availability": 1,
+            "created_at": "2026-07-02 15:01:29.045741"
+        }
+    ],
+    "sponsorship": [
+        {
+            "id": 1,
+            "sponsor_name": "Acme Corp",
+            "commitment": "$50k",
+            "deliverables": "Logo + booth",
+            "visibility_score": 85,
+            "roi": 1.2,
+            "created_at": "2026-07-02 15:01:29.046351"
+        },
+        {
+            "id": 2,
+            "sponsor_name": "Beta Inc",
+            "commitment": "$30k",
+            "deliverables": "Session sponsor",
+            "visibility_score": 70,
+            "roi": 0.9,
+            "created_at": "2026-07-02 15:01:29.046353"
+        },
+        {
+            "id": 3,
+            "sponsor_name": "Gamma Ltd",
+            "commitment": "$20k",
+            "deliverables": "Networking sponsor",
+            "visibility_score": 60,
+            "roi": 0.7,
+            "created_at": "2026-07-02 15:01:29.046354"
+        }
+    ],
+    "incident": [
+        {
+            "id": 1,
+            "title": "Wi-Fi outage",
+            "description": "Main hall connectivity lost",
+            "priority": "high",
+            "status": "open",
+            "reported_at": "2026-07-02 15:01:29.043392",
+            "resolved_at": null
+        },
+        {
+            "id": 2,
+            "title": "Speaker delay",
+            "description": "Keynote speaker is late",
+            "priority": "medium",
+            "status": "open",
+            "reported_at": "2026-07-02 15:01:29.043396",
+            "resolved_at": null
+        },
+        {
+            "id": 3,
+            "title": "Catering shortage",
+            "description": "Lunch not enough for attendees",
+            "priority": "low",
+            "status": "open",
+            "reported_at": "2026-07-02 15:01:29.043397",
+            "resolved_at": null
+        }
+    ],
+    "notification": [
+        {
+            "id": 1,
+            "user_id": null,
+            "recipient": "admin@eventops.com",
+            "channel": "email",
+            "subject": "Welcome",
+            "message": "Welcome to EventOps AI",
+            "sent_at": "2026-07-02 15:01:29.044971",
+            "read": 0
+        },
+        {
+            "id": 2,
+            "user_id": null,
+            "recipient": "user@eventops.com",
+            "channel": "sms",
+            "subject": "Event Reminder",
+            "message": "Your event starts tomorrow",
+            "sent_at": "2026-07-02 15:01:29.044973",
+            "read": 0
+        }
+    ],
+    "reminder": [],
+    "feedback": []
+}
