@@ -4,6 +4,7 @@ import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
 import Spinner from '../../components/common/Spinner';
 import { formatDate } from '../../utils/helpers';
+import { Users, Ticket, Calendar } from 'lucide-react';
 
 const AdminRegistrations = () => {
   const [regs, setRegs] = useState([]);
@@ -32,7 +33,7 @@ const AdminRegistrations = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
             <div>
               <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-                <span className="text-3xl">👥</span> All Registrations
+                <Users className="w-8 h-8 text-indigo-400" /> All Registrations
               </h1>
               <p className="text-zinc-400 mt-2 text-sm">Manage attendee check-ins and tickets across all events</p>
             </div>
@@ -58,7 +59,7 @@ const AdminRegistrations = () => {
               
               {regs.length === 0 ? (
                 <div className="text-center py-20 relative z-10">
-                  <div className="text-6xl mb-6 filter drop-shadow-lg opacity-50">🎫</div>
+                  <div className="flex justify-center mb-6 opacity-50"><Ticket className="w-16 h-16 filter drop-shadow-lg" /></div>
                   <h3 className="text-xl font-bold text-white mb-2">No registrations yet</h3>
                   <p className="text-zinc-500">When users register for events, they will appear here.</p>
                 </div>
@@ -86,7 +87,7 @@ const AdminRegistrations = () => {
                           </td>
                           <td className="px-6 py-4 align-middle">
                             <span className="font-medium text-zinc-300 flex items-center gap-2">
-                              <span className="text-indigo-400">📅</span> {r.event?.title || 'Unknown Event'}
+                              <Calendar className="w-4 h-4 text-indigo-400" /> {r.event?.title || 'Unknown Event'}
                             </span>
                           </td>
                           <td className="px-6 py-4 align-middle text-sm text-zinc-400">

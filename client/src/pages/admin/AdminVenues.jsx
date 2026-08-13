@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
 import Spinner from '../../components/common/Spinner';
+import { Building } from 'lucide-react';
 
 const AdminVenues = () => {
   const [venues, setVenues] = useState([]);
@@ -40,7 +41,7 @@ const AdminVenues = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
             <div>
               <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-                <span className="text-3xl">🏢</span> Manage Venues
+                <Building className="w-8 h-8 text-indigo-400" /> Manage Venues
               </h1>
               <p className="text-zinc-400 mt-2 text-sm flex items-center gap-2">
                 <span className="bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded font-bold">{venues.length}</span> venues total
@@ -77,7 +78,7 @@ const AdminVenues = () => {
               
               {filtered.length === 0 ? (
                 <div className="text-center py-20 relative z-10">
-                  <div className="text-6xl mb-6 filter drop-shadow-lg opacity-50">🏢</div>
+                  <div className="flex justify-center mb-6 opacity-50"><Building className="w-16 h-16 filter drop-shadow-lg text-indigo-400" /></div>
                   <h3 className="text-xl font-bold text-white mb-2">No venues found</h3>
                   <p className="text-zinc-500 mb-8 max-w-md mx-auto">
                     {search ? 'No venues match your search criteria.' : "You haven't added any venues yet."}

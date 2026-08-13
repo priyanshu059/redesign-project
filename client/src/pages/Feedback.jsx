@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
 import Spinner from '../components/common/Spinner';
 import { formatDate } from '../utils/helpers';
+import { Star, AlertCircle, Calendar, MapPin, Lightbulb, Loader2, ArrowLeft } from 'lucide-react';
 
 const Feedback = () => {
   const { eventId } = useParams();
@@ -63,7 +64,7 @@ const Feedback = () => {
         {/* Header */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-amber-500/10 rounded-3xl mb-6 shadow-lg shadow-amber-500/10 border border-amber-500/20">
-            <span className="text-4xl">⭐</span>
+            <Star className="w-10 h-10 text-amber-500" fill="currentColor" />
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">Event Feedback</h1>
           <p className="text-zinc-400 text-lg">
@@ -73,7 +74,7 @@ const Feedback = () => {
 
         {error && (
           <div className="bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-2xl px-5 py-4 mb-8 text-sm flex items-start gap-3 shadow-lg">
-            <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
             {error}
           </div>
         )}
@@ -88,18 +89,17 @@ const Feedback = () => {
                 <h2 className="text-white font-bold text-lg mb-2">{event.title}</h2>
                 <div className="flex flex-col gap-1.5">
                   <p className="text-zinc-400 text-sm flex items-center gap-2">
-                    <span className="text-amber-500">📆</span> {formatDate(event.date)} &nbsp;·&nbsp; {event.time}
+                    <Calendar className="w-4 h-4 text-amber-500" /> {formatDate(event.date)} &nbsp;·&nbsp; {event.time}
                   </p>
                   <p className="text-zinc-400 text-sm flex items-center gap-2">
-                    <span className="text-amber-500">📍</span> {event.location}
+                    <MapPin className="w-4 h-4 text-amber-500" /> {event.location}
                   </p>
                 </div>
               </div>
 
-              {/* Existing feedback note */}
               {existing && (
                 <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-xl px-5 py-4 text-indigo-300 text-sm flex items-start gap-3">
-                  <span className="text-lg">💡</span>
+                  <Lightbulb className="w-5 h-5 shrink-0 mt-0.5" />
                   <p>You previously rated this event <strong className="text-white">{existing.rating}/5</strong>. Feel free to update your review.</p>
                 </div>
               )}
@@ -118,7 +118,7 @@ const Feedback = () => {
                       className={`text-4xl sm:text-5xl transition-all duration-300 focus:outline-none ${star <= (hovered || rating) ? 'scale-110' : 'hover:scale-110'}`}
                       title={starLabels[star]}
                     >
-                      <span className={star <= (hovered || rating) ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]' : 'text-zinc-800'}>★</span>
+                      <Star className={`w-10 h-10 ${star <= (hovered || rating) ? 'text-amber-400 fill-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]' : 'text-zinc-800'}`} />
                     </button>
                   ))}
                 </div>
@@ -155,7 +155,7 @@ const Feedback = () => {
                 >
                   {submitting ? (
                     <>
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-zinc-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                      <Loader2 className="animate-spin -ml-1 mr-3 h-5 w-5 text-zinc-900" />
                       Submitting...
                     </>
                   ) : (existing ? 'Update Feedback' : 'Submit Feedback')}
@@ -163,7 +163,7 @@ const Feedback = () => {
 
                 <div className="text-center mt-6">
                   <Link to={`/events/${eventId}`} className="inline-flex items-center gap-2 text-zinc-500 hover:text-amber-400 text-sm font-medium transition-colors group">
-                    <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                     Back to Event
                   </Link>
                 </div>

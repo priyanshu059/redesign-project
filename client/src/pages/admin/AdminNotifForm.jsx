@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
+import { Send, FileText, Radio, Bell, Mail, Smartphone, Eye } from 'lucide-react';
 
 const AdminNotifForm = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const AdminNotifForm = () => {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-                📤 Send Notification
+                <Send className="w-6 h-6 mr-2 inline text-indigo-400" /> Send Notification
               </h1>
               <p className="text-zinc-500 text-sm mt-1">Broadcast messages to users across multiple channels</p>
             </div>
@@ -68,7 +69,7 @@ const AdminNotifForm = () => {
               <div className="lg:col-span-2 space-y-6">
                 <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                   <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                    <span className="text-indigo-400">📝</span> Message Details
+                    <FileText className="w-5 h-5 text-indigo-400" /> Message Details
                   </h3>
                   
                   <div className="space-y-5">
@@ -113,16 +114,16 @@ const AdminNotifForm = () => {
               <div className="space-y-6">
                 <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                   <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                    <span className="text-indigo-400">📡</span> Delivery Options
+                    <Radio className="w-5 h-5 text-indigo-400" /> Delivery Options
                   </h3>
                   
                   <div>
                     <label className="block text-zinc-400 text-xs font-bold uppercase tracking-wider mb-3">Channel</label>
                     <div className="flex flex-col gap-2">
                       {[
-                        { v: 'in-app', icon: '🔔', label: 'In-App Alert' },
-                        { v: 'email', icon: '✉️', label: 'Email Dispatch' },
-                        { v: 'sms', icon: '📱', label: 'SMS Text' },
+                        { v: 'in-app', icon: <Bell className="w-5 h-5" />, label: 'In-App Alert' },
+                        { v: 'email', icon: <Mail className="w-5 h-5" />, label: 'Email Dispatch' },
+                        { v: 'sms', icon: <Smartphone className="w-5 h-5" />, label: 'SMS Text' },
                       ].map(({ v, icon, label }) => (
                         <label key={v} className={`relative flex items-center p-3 rounded-xl border cursor-pointer transition-all ${
                           form.channel === v 
@@ -130,7 +131,7 @@ const AdminNotifForm = () => {
                             : 'bg-zinc-950/50 border-zinc-800 text-zinc-400 hover:bg-zinc-800/50 hover:border-zinc-700'
                         }`}>
                           <div className="flex items-center gap-3">
-                            <span className="text-xl">{icon}</span>
+                            <span className="flex items-center justify-center w-5 h-5">{icon}</span>
                             <span className="font-bold text-sm">{label}</span>
                           </div>
                           <input type="radio" name="channel" value={v} checked={form.channel === v} onChange={handleChange} className="sr-only" />
@@ -147,12 +148,12 @@ const AdminNotifForm = () => {
                 {(form.title || form.message) && (
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-indigo-500/30 rounded-3xl p-6 shadow-[0_0_15px_rgba(99,102,241,0.1)]">
                     <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-400 mb-4 flex items-center gap-2">
-                      <span>👁️</span> Live Preview
+                      <Eye className="w-4 h-4 mr-1 inline" /> Live Preview
                     </h3>
                     <div className="bg-zinc-950/80 rounded-2xl p-4 border border-zinc-800">
                       <div className="flex gap-3">
                         <div className="w-10 h-10 bg-indigo-500/20 border border-indigo-500/30 rounded-xl flex items-center justify-center text-xl flex-shrink-0 text-indigo-400 shadow-inner">
-                          {form.channel === 'email' ? '✉️' : form.channel === 'sms' ? '📱' : '🔔'}
+                          {form.channel === 'email' ? <Mail className="w-5 h-5" /> : form.channel === 'sms' ? <Smartphone className="w-5 h-5" /> : <Bell className="w-5 h-5" />}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-white font-bold text-sm truncate">{form.title || 'Untitled Notification'}</p>

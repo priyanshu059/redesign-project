@@ -1,5 +1,6 @@
 // src/pages/Home.jsx - Home / Landing Page
 import { Link } from 'react-router-dom';
+import { ClipboardList, Building2, Mic, Trophy, AlertTriangle, LayoutGrid, ArrowRight } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 
 const Home = () => {
@@ -7,11 +8,11 @@ const Home = () => {
 
   // Feature agent cards (same as original)
   const agents = [
-    { icon: '📋', title: 'Registration Agent', desc: 'Automates attendee registration, ticket allocation, and check-in workflows.', color: 'from-blue-500/10 to-blue-500/5', badge: 'bg-blue-500/20 text-blue-300', border: 'border-blue-500/20' },
-    { icon: '🏢', title: 'Venue Agent', desc: 'Optimizes venue utilization, layout, and capacity management in real time.', color: 'from-emerald-500/10 to-emerald-500/5', badge: 'bg-emerald-500/20 text-emerald-300', border: 'border-emerald-500/20' },
-    { icon: '🎤', title: 'Speaker Agent', desc: 'Coordinates speaker schedules, bios, and session assignments seamlessly.', color: 'from-purple-500/10 to-purple-500/5', badge: 'bg-purple-500/20 text-purple-300', border: 'border-purple-500/20' },
-    { icon: '🏆', title: 'Sponsorship Agent', desc: 'Tracks sponsor commitments, ROI metrics, and deliverable completion.', color: 'from-amber-500/10 to-amber-500/5', badge: 'bg-amber-500/20 text-amber-300', border: 'border-amber-500/20' },
-    { icon: '⚠️', title: 'Incident Agent', desc: 'Monitors and responds to on-site incidents with smart prioritization.', color: 'from-rose-500/10 to-rose-500/5', badge: 'bg-rose-500/20 text-rose-300', border: 'border-rose-500/20' },
+    { icon: <ClipboardList className="w-8 h-8 text-blue-400" />, title: 'Registration Agent', desc: 'Automates attendee registration, ticket allocation, and check-in workflows.', color: 'from-blue-500/10 to-blue-500/5', badge: 'bg-blue-500/20 text-blue-300', border: 'border-blue-500/20' },
+    { icon: <Building2 className="w-8 h-8 text-emerald-400" />, title: 'Venue Agent', desc: 'Optimizes venue utilization, layout, and capacity management in real time.', color: 'from-emerald-500/10 to-emerald-500/5', badge: 'bg-emerald-500/20 text-emerald-300', border: 'border-emerald-500/20' },
+    { icon: <Mic className="w-8 h-8 text-purple-400" />, title: 'Speaker Agent', desc: 'Coordinates speaker schedules, bios, and session assignments seamlessly.', color: 'from-purple-500/10 to-purple-500/5', badge: 'bg-purple-500/20 text-purple-300', border: 'border-purple-500/20' },
+    { icon: <Trophy className="w-8 h-8 text-amber-400" />, title: 'Sponsorship Agent', desc: 'Tracks sponsor commitments, ROI metrics, and deliverable completion.', color: 'from-amber-500/10 to-amber-500/5', badge: 'bg-amber-500/20 text-amber-300', border: 'border-amber-500/20' },
+    { icon: <AlertTriangle className="w-8 h-8 text-rose-400" />, title: 'Incident Agent', desc: 'Monitors and responds to on-site incidents with smart prioritization.', color: 'from-rose-500/10 to-rose-500/5', badge: 'bg-rose-500/20 text-rose-300', border: 'border-rose-500/20' },
   ];
 
   return (
@@ -44,7 +45,7 @@ const Home = () => {
               {user ? (
                 <>
                   <Link to="/dashboard" className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold px-8 py-4 rounded-xl transition-all shadow-lg shadow-indigo-500/25 flex items-center gap-2">
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                    <LayoutGrid className="w-5 h-5" />
                     Go to Dashboard
                   </Link>
                   <Link to="/events" className="bg-zinc-800 hover:bg-zinc-700 text-white font-semibold px-8 py-4 rounded-xl transition-all border border-zinc-700">
@@ -55,7 +56,7 @@ const Home = () => {
                 <>
                   <Link to="/register" className="bg-white text-zinc-950 hover:bg-zinc-200 font-semibold px-8 py-4 rounded-xl transition-all shadow-lg flex items-center gap-2">
                     Get Started Free
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                   <Link to="/login" className="bg-zinc-900/50 hover:bg-zinc-800 text-white font-semibold px-8 py-4 rounded-xl transition-all border border-zinc-800 backdrop-blur-sm">
                     Sign In
@@ -116,7 +117,7 @@ const Home = () => {
               </p>
               <Link to="/register" className="bg-white text-indigo-900 hover:bg-zinc-100 font-semibold px-10 py-4 rounded-xl transition-all shadow-xl hover:shadow-indigo-500/25 inline-flex items-center gap-2">
                 Start Free Today
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
           </div>

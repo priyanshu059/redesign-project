@@ -5,6 +5,7 @@ import api from '../services/api';
 import Spinner from '../components/common/Spinner';
 import { formatDate, formatPrice } from '../utils/helpers';
 import { getStatusColor } from '../utils/helpers';
+import { Info, MapPin } from 'lucide-react';
 
 const EventDetail = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const EventDetail = () => {
       .then(({ data }) => setEvent(data))
       .catch(() => navigate('/events'))
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, navigate]);
 
   if (loading) return <div className="min-h-screen bg-[#09090b] flex items-center justify-center"><Spinner size="lg" /></div>;
   if (!event) return null;
@@ -69,7 +70,7 @@ const EventDetail = () => {
             {/* Description */}
             <div className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-3xl p-8">
               <h2 className="text-white font-bold text-xl mb-4 tracking-tight flex items-center gap-2">
-                <span className="text-xl">ℹ️</span> About This Event
+                <Info className="w-5 h-5 text-indigo-400" /> About This Event
               </h2>
               <p className="text-zinc-400 leading-relaxed whitespace-pre-wrap">{event.description}</p>
             </div>
@@ -80,7 +81,7 @@ const EventDetail = () => {
             {event.venue && (
               <div className="bg-zinc-900/50 backdrop-blur-sm border border-zinc-800 rounded-3xl p-8">
                 <h2 className="text-white font-bold text-xl mb-4 tracking-tight flex items-center gap-2">
-                  <span className="text-xl">📍</span> Venue
+                  <MapPin className="w-5 h-5 text-indigo-400" /> Venue
                 </h2>
                 <div className="bg-zinc-950/50 border border-zinc-800/80 rounded-2xl p-5">
                   <p className="text-white font-semibold text-lg mb-1">{event.venue.name}</p>

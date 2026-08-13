@@ -4,12 +4,112 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
 import Spinner from '../../components/common/Spinner';
+import { BrainCircuit, Calendar, ClipboardList, Star, Bot, HeartPulse, LineChart, Zap, Bell, Mic, ArrowRight, DollarSign, AlertTriangle } from 'lucide-react';
 
 const formatInsights = (text) => {
   if (!text) return [];
   // Split on numbered items or double newlines
   return text.split(/\n\n+|\n(?=\d\.)/).map(p => p.trim()).filter(Boolean);
 };
+
+// ─── Pure-SVG Bar Chart ────────────────────────────────────────────────────────
+const BarChart = ({ data }) => {
+  if (!data || data.length === 0) return (
+    <div className="flex items-center justify-center h-40 text-zinc-600 text-sm">No event data yet</div>
+  );
+  const maxVal = Math.max(...data.map(d => Math.max(d.registrations, d.capacity, 1)));
+  const W = 460, H = 160, pad = 40, barGroup = (W - pad * 2) / data.length;
+  const scaleY = (v) => H - 20 - (v / maxVal) * (H - 30);
+  const COLORS = { reg: '#6366f1', cap: '#334155' };
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ maxHeight: 180 }}>
+      {/* Y gridlines */}
+      {[0, 0.25, 0.5, 0.75, 1].map(f => (
+        <line key={f} x1={pad} x2={W - pad} y1={scaleY(maxVal * f)} y2={scaleY(maxVal * f)}
+          stroke="#27272a" strokeWidth="1" strokeDasharray="3 3" />
+      ))}
+      {data.map((d, i) => {
+        const x = pad + i * barGroup + barGroup * 0.1;
+        const bw = barGroup * 0.35;
+        const capH = H - 20 - scaleY(d.capacity);
+        const regH = H - 20 - scaleY(d.registrations);
+        return (
+          <g key={i}>
+            {/* Capacity bar (lighter) */}
+            <rect x={x} y={scaleY(d.capacity)} width={bw} height={capH < 0 ? 0 : capH}
+              rx="3" fill={COLORS.cap} opacity="0.7" />
+            {/* Registration bar */}
+            <rect x={x + bw + 2} y={scaleY(d.registrations)} width={bw} height={regH < 0 ? 0 : regH}
+              rx="3" fill={COLORS.reg} />
+            {/* X label */}
+            <text x={x + bw} y={H - 4} textAnchor="middle" fontSize="9" fill="#71717a"
+              style={{ fontFamily: 'inherit' }}>
+              {d.name}
+            </text>
+          </g>
+        );
+      })}
+      {/* Legend */}
+      <rect x={W - pad - 80} y={6} width={10} height={10} rx="2" fill={COLORS.cap} opacity="0.7" />
+      <text x={W - pad - 67} y={15} fontSize="9" fill="#71717a" style={{ fontFamily: 'inherit' }}>Capacity</text>
+      <rect x={W - pad - 80} y={22} width={10} height={10} rx="2" fill={COLORS.reg} />
+      <text x={W - pad - 67} y={31} fontSize="9" fill="#a5b4fc" style={{ fontFamily: 'inherit' }}>Registrations</text>
+    </svg>
+  );
+};
+
+// ─── Pure-SVG Donut Chart ─────────────────────────────────────────────────────
+const DonutChart = ({ data }) => {
+  if (!data || data.length === 0) return (
+    <div className="flex items-center justify-center h-40 text-zinc-600 text-sm">No incident data yet</div>
+  );
+  const COLORS_MAP = { Low: '#22d3ee', Medium: '#f59e0b', High: '#f97316', Critical: '#ef4444' };
+  const total = data.reduce((s, d) => s + d.value, 0);
+  const cx = 70, cy = 70, r = 55, innerR = 34;
+  let startAngle = -Math.PI / 2;
+  const slices = data.map(d => {
+    const angle = (d.value / total) * 2 * Math.PI;
+    const x1 = cx + r * Math.cos(startAngle);
+    const y1 = cy + r * Math.sin(startAngle);
+    startAngle += angle;
+    const x2 = cx + r * Math.cos(startAngle);
+    const y2 = cy + r * Math.sin(startAngle);
+    const xi1 = cx + innerR * Math.cos(startAngle - angle);
+    const yi1 = cy + innerR * Math.sin(startAngle - angle);
+    const xi2 = cx + innerR * Math.cos(startAngle);
+    const yi2 = cy + innerR * Math.sin(startAngle);
+    const large = angle > Math.PI ? 1 : 0;
+    return {
+      path: `M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} L ${xi2} ${yi2} A ${innerR} ${innerR} 0 ${large} 0 ${xi1} ${yi1} Z`,
+      color: COLORS_MAP[d.label] || '#6366f1',
+      label: d.label,
+      value: d.value,
+    };
+  });
+
+  return (
+    <div className="flex items-center gap-6">
+      <svg viewBox="0 0 140 140" className="w-28 h-28 shrink-0">
+        {slices.map((s, i) => <path key={i} d={s.path} fill={s.color} opacity="0.9" />)}
+        <text x={cx} y={cy - 6} textAnchor="middle" fontSize="18" fontWeight="bold" fill="white"
+          style={{ fontFamily: 'inherit' }}>{total}</text>
+        <text x={cx} y={cy + 10} textAnchor="middle" fontSize="8" fill="#71717a"
+          style={{ fontFamily: 'inherit' }}>total</text>
+      </svg>
+      <div className="space-y-2">
+        {slices.map((s, i) => (
+          <div key={i} className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full shrink-0" style={{ background: s.color }} />
+            <span className="text-zinc-400 text-xs font-medium">{s.label}</span>
+            <span className="text-white text-xs font-bold ml-auto pl-4">{s.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 
 // Inline modern StatCard for this specific page
 const AIStatCard = ({ title, value, icon, color }) => {
@@ -70,7 +170,7 @@ const AdminIntelligence = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
             <div>
               <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-                <span className="text-3xl">🧠</span> AI Intelligence
+                <BrainCircuit className="w-8 h-8 text-indigo-400" /> AI Intelligence
               </h1>
               <p className="text-zinc-400 mt-2 text-sm flex items-center gap-2">
                 Real-time platform insights powered by Gemini AI
@@ -113,10 +213,11 @@ const AdminIntelligence = () => {
 
           {/* Stats */}
           {data?.stats && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 relative z-10">
-              <AIStatCard title="Total Events" value={data.stats.totalEvents} icon="📅" color="purple" />
-              <AIStatCard title="Total Registrations" value={data.stats.totalRegistrations} icon="📋" color="blue" />
-              <AIStatCard title="Avg Feedback Rating" value={`${data.stats.avgRating} / 5`} icon="⭐" color="yellow" />
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 relative z-10">
+              <AIStatCard title="Total Events" value={data.stats.totalEvents} icon={<Calendar className="w-6 h-6" />} color="purple" />
+              <AIStatCard title="Total Registrations" value={data.stats.totalRegistrations} icon={<ClipboardList className="w-6 h-6" />} color="blue" />
+              <AIStatCard title="Avg Feedback Rating" value={`${data.stats.avgRating} / 5`} icon={<Star className="w-6 h-6" />} color="yellow" />
+              <AIStatCard title="Sponsorship Revenue" value={`$${(data.stats.totalSponsorAmount || 0).toLocaleString()}`} icon={<DollarSign className="w-6 h-6" />} color="emerald" />
             </div>
           )}
 
@@ -138,7 +239,7 @@ const AdminIntelligence = () => {
                       {/* Header */}
                       <div className="bg-gradient-to-r from-zinc-900 to-zinc-900/80 px-6 py-5 border-b border-indigo-500/20 flex items-center gap-4 relative overflow-hidden">
                         <div className="absolute right-0 top-0 w-64 h-full bg-gradient-to-l from-indigo-500/10 to-transparent pointer-events-none"></div>
-                        <div className="w-12 h-12 bg-indigo-500/20 border border-indigo-500/30 rounded-2xl flex items-center justify-center text-2xl shadow-inner relative z-10">🤖</div>
+                        <div className="w-12 h-12 bg-indigo-500/20 border border-indigo-500/30 rounded-2xl flex items-center justify-center shadow-inner relative z-10"><Bot className="w-7 h-7 text-indigo-400" /></div>
                         <div className="relative z-10">
                           <h2 className="text-white font-bold text-lg">Gemini Analysis</h2>
                           <p className="text-indigo-400 text-xs font-medium uppercase tracking-wider mt-0.5">Executive Summary</p>
@@ -169,7 +270,7 @@ const AdminIntelligence = () => {
                     {data?.stats && (
                       <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm relative overflow-hidden">
                         <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-6 flex items-center gap-2">
-                          <span className="text-emerald-400 text-lg">💚</span> Platform Health
+                          <HeartPulse className="w-5 h-5 text-emerald-400" /> Platform Health
                         </h3>
                         {(() => {
                           const avg = parseFloat(data.stats.avgRating);
@@ -197,7 +298,7 @@ const AdminIntelligence = () => {
                     {data?.stats && (
                       <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                         <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-5 flex items-center gap-2">
-                          <span className="text-blue-400 text-lg">📈</span> Key Metrics
+                          <LineChart className="w-5 h-5 text-blue-400" /> Key Metrics
                         </h3>
                         <div className="space-y-4">
                           <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/50">
@@ -210,7 +311,7 @@ const AdminIntelligence = () => {
                           </div>
                           <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/50 border border-zinc-800/50">
                             <span className="text-zinc-400 text-sm font-medium">Avg Rating</span>
-                            <span className="text-amber-400 font-bold flex items-center gap-1">{data.stats.avgRating} <span className="text-xs">⭐</span></span>
+                            <span className="text-amber-400 font-bold flex items-center gap-1">{data.stats.avgRating} <Star className="w-3 h-3" /></span>
                           </div>
                           {data.stats.totalEvents > 0 && (
                             <div className="flex justify-between items-center p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
@@ -228,19 +329,19 @@ const AdminIntelligence = () => {
                     <div className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 backdrop-blur-xl border border-indigo-500/20 rounded-3xl p-6 shadow-sm relative overflow-hidden">
                       <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-indigo-500/20 rounded-full blur-2xl pointer-events-none"></div>
                       <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-300 mb-5 flex items-center gap-2 relative z-10">
-                        <span className="text-lg">⚡</span> Recommended Actions
+                        <Zap className="w-5 h-5" /> Recommended Actions
                       </h3>
                       <div className="space-y-3 relative z-10">
                         {[
-                          { icon: '📅', label: 'Schedule new events', link: '/admin/events/add' },
-                          { icon: '🔔', label: 'Send notifications', link: '/admin/notifications/send' },
-                          { icon: '🎤', label: 'Add speakers', link: '/admin/speakers/add' },
+                          { icon: <Calendar className="w-5 h-5" />, label: 'Schedule new events', link: '/admin/events/add' },
+                          { icon: <Bell className="w-5 h-5" />, label: 'Send notifications', link: '/admin/notifications/send' },
+                          { icon: <Mic className="w-5 h-5" />, label: 'Add speakers', link: '/admin/speakers/add' },
                         ].map(({ icon, label, link }) => (
                           <Link key={link} to={link}
                             className="flex items-center gap-3 p-3 rounded-xl bg-zinc-950/50 hover:bg-indigo-500/20 border border-zinc-800 hover:border-indigo-500/30 text-sm text-zinc-300 hover:text-white transition-all group">
-                            <span className="text-lg w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-700 flex items-center justify-center group-hover:bg-indigo-500/20 group-hover:border-indigo-500/50 transition-colors shadow-inner">{icon}</span>
+                            <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-700 flex items-center justify-center group-hover:bg-indigo-500/20 group-hover:border-indigo-500/50 transition-colors shadow-inner">{icon}</div>
                             <span className="font-medium">{label}</span>
-                            <span className="ml-auto text-zinc-500 group-hover:text-indigo-400 transition-colors group-hover:translate-x-1 transform duration-300">→</span>
+                            <ArrowRight className="ml-auto w-4 h-4 text-zinc-500 group-hover:text-indigo-400 transition-colors group-hover:translate-x-1 transform duration-300" />
                           </Link>
                         ))}
                       </div>
@@ -249,11 +350,34 @@ const AdminIntelligence = () => {
                 </div>
               )}
 
+              {/* ── Charts Row ──────────────────────────────────────────────── */}
+              {data?.chartData && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 relative z-10">
+
+                  {/* Event Registrations vs Capacity Bar Chart */}
+                  <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-5 flex items-center gap-2">
+                      <LineChart className="w-5 h-5 text-indigo-400" /> Registrations vs Capacity
+                    </h3>
+                    <BarChart data={data.chartData.eventBarData} />
+                  </div>
+
+                  {/* Incident Severity Donut */}
+                  <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-5 flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5 text-amber-400" /> Incident Severity Breakdown
+                    </h3>
+                    <DonutChart data={data.chartData.incidentDonut} />
+                  </div>
+
+                </div>
+              )}
+
               {/* Empty state */}
               {!data && !error && !loading && (
-                <div className="text-center py-32 relative">
+                  <div className="text-center py-32 relative">
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"></div>
-                  <div className="text-6xl mb-6 filter drop-shadow-lg opacity-50 relative z-10">🧠</div>
+                  <div className="flex justify-center mb-6 relative z-10"><BrainCircuit className="w-16 h-16 text-indigo-500/50 filter drop-shadow-lg" /></div>
                   <h3 className="text-2xl font-bold text-white mb-2 relative z-10 tracking-tight">Intelligence Ready</h3>
                   <p className="text-zinc-500 mb-8 max-w-md mx-auto relative z-10">
                     Click "Refresh Insights" to generate a comprehensive AI analysis of your platform's current state.

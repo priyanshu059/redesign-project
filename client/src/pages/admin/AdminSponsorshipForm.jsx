@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
 import Spinner from '../../components/common/Spinner';
+import { Edit2, PlusCircle, Handshake, DollarSign, User } from 'lucide-react';
 
 const EMPTY = { sponsorName: '', sponsorType: 'Gold', amount: '', contactEmail: '', contactPhone: '', description: '', status: 'Pending', event: '' };
 
@@ -63,7 +64,7 @@ const AdminSponsorshipForm = () => {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-                {isEdit ? '✏️ Edit Sponsorship' : '➕ Add Sponsorship'}
+                <>{isEdit ? <Edit2 className="w-6 h-6 mr-2 inline" /> : <PlusCircle className="w-6 h-6 mr-2 inline" />} {isEdit ? 'Edit Sponsorship' : 'Add Sponsorship'}</>
               </h1>
               <p className="text-zinc-500 text-sm mt-1">Configure sponsor tiers and financial contributions</p>
             </div>
@@ -87,7 +88,7 @@ const AdminSponsorshipForm = () => {
                 <div className="lg:col-span-2 space-y-6">
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-indigo-400">🤝</span> Sponsor Details
+                      <Handshake className="w-5 h-5 text-indigo-400" /> Sponsor Details
                     </h3>
                     
                     <div className="space-y-5">
@@ -134,7 +135,7 @@ const AdminSponsorshipForm = () => {
                 <div className="space-y-6">
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-indigo-400">💰</span> Value & Status
+                      <DollarSign className="w-5 h-5 text-indigo-400" /> Value & Status
                     </h3>
                     
                     <div className="space-y-5">
@@ -160,7 +161,7 @@ const AdminSponsorshipForm = () => {
 
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-indigo-400">👤</span> Contact Info
+                      <User className="w-5 h-5 text-indigo-400" /> Contact Info
                     </h3>
                     
                     <div className="space-y-5">

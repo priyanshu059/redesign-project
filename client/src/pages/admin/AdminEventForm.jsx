@@ -4,9 +4,10 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
 import Spinner from '../../components/common/Spinner';
+import { Circle, Edit2, PlusCircle, FileText, MapPin, Settings } from 'lucide-react';
 
 const STATUS_OPTIONS = ['upcoming', 'ongoing', 'completed', 'cancelled'];
-const STATUS_ICONS = { upcoming: '🔵', ongoing: '🟢', completed: '⚪', cancelled: '🔴' };
+const STATUS_ICONS = { upcoming: <Circle className="w-4 h-4 text-blue-500 fill-current" />, ongoing: <Circle className="w-4 h-4 text-emerald-500 fill-current" />, completed: <Circle className="w-4 h-4 text-zinc-500 fill-current" />, cancelled: <Circle className="w-4 h-4 text-rose-500 fill-current" /> };
 
 const EMPTY = { title: '', description: '', date: '', time: '', location: '', capacity: 100, status: 'upcoming' };
 
@@ -68,7 +69,7 @@ const AdminEventForm = () => {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-                {isEdit ? '✏️ Edit Event' : '➕ Create New Event'}
+                <>{isEdit ? <Edit2 className="w-6 h-6 mr-2 inline" /> : <PlusCircle className="w-6 h-6 mr-2 inline" />} {isEdit ? 'Edit Event' : 'Create New Event'}</>
               </h1>
               <p className="text-zinc-500 text-sm mt-1">Configure event details and settings</p>
             </div>
@@ -93,7 +94,7 @@ const AdminEventForm = () => {
                 <div className="lg:col-span-2 space-y-6">
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-indigo-400">📝</span> Basic Info
+                      <FileText className="w-5 h-5 text-indigo-400" /> Basic Info
                     </h3>
                     
                     <div className="space-y-5">
@@ -119,7 +120,7 @@ const AdminEventForm = () => {
 
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-indigo-400">📍</span> Timing & Location
+                      <MapPin className="w-5 h-5 text-indigo-400" /> Timing & Location
                     </h3>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
@@ -165,7 +166,7 @@ const AdminEventForm = () => {
                 <div className="space-y-6">
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-indigo-400">⚙️</span> Configuration
+                      <Settings className="w-5 h-5 text-indigo-400" /> Configuration
                     </h3>
                     
                     <div className="mb-6">

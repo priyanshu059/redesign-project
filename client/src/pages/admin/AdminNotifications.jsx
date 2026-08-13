@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
 import Spinner from '../../components/common/Spinner';
+import { Bell } from 'lucide-react';
 
 const AdminNotifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -41,7 +42,7 @@ const AdminNotifications = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
             <div>
               <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-                <span className="text-3xl">🔔</span> Notifications
+                <Bell className="w-8 h-8 text-indigo-400" /> Notifications
               </h1>
               <p className="text-zinc-400 mt-2 text-sm flex items-center gap-2">
                 <span className="bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded font-bold">{notifications.length}</span> total notifications sent
@@ -78,7 +79,7 @@ const AdminNotifications = () => {
               
               {filtered.length === 0 ? (
                 <div className="text-center py-20 relative z-10">
-                  <div className="text-6xl mb-6 filter drop-shadow-lg opacity-50">🔔</div>
+                  <div className="flex justify-center mb-6 opacity-50"><Bell className="w-16 h-16 filter drop-shadow-lg" /></div>
                   <h3 className="text-xl font-bold text-white mb-2">No notifications found</h3>
                   <p className="text-zinc-500 mb-8 max-w-md mx-auto">
                     {search ? 'No notifications match your search query.' : "No notifications have been sent yet."}
@@ -94,9 +95,7 @@ const AdminNotifications = () => {
                   {filtered.map((n) => (
                     <div key={n._id} className="flex items-start justify-between gap-4 px-6 py-5 hover:bg-zinc-800/30 transition-colors group">
                       <div className="flex items-start gap-4 flex-1 min-w-0">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl flex-shrink-0 transition-colors border ${n.isRead ? 'bg-zinc-800/50 border-zinc-700/50 text-zinc-500' : 'bg-indigo-500/20 border-indigo-500/30 text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.2)]'}`}>
-                          🔔
-                        </div>
+                          <Bell className="w-6 h-6" />
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center justify-between gap-4 mb-1">
                             <div className="flex items-center gap-3 flex-wrap">

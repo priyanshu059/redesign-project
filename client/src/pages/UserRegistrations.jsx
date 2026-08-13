@@ -1,10 +1,11 @@
 // src/pages/UserRegistrations.jsx — My Registrations page
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import api from '../services/api';
 import Spinner from '../components/common/Spinner';
 import StatCard from '../components/common/StatCard';
 import { formatDate } from '../utils/helpers';
+import { Ticket, CheckCircle, Clock, Check } from 'lucide-react';
 
 const TICKET_TYPES = ['Standard', 'VIP', 'Speaker', 'Press'];
 
@@ -33,7 +34,7 @@ const UserRegistrations = () => {
       await api.delete(`/registrations/${id}`);
       setMessage('Registration cancelled successfully.');
       fetchRegs();
-    } catch (err) {
+    } catch {
       setMessage('Failed to cancel registration.');
     }
   };
@@ -87,9 +88,9 @@ const UserRegistrations = () => {
 
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-          <StatCard title="Total Tickets" value={registrations.length} icon="🎟️" color="purple" />
-          <StatCard title="Checked In" value={checkedIn} icon="✅" color="green" />
-          <StatCard title="Pending" value={pending} icon="⏳" color="yellow" />
+          <StatCard title="Total Tickets" value={registrations.length} icon={<Ticket className="w-6 h-6" />} color="purple" />
+          <StatCard title="Checked In" value={checkedIn} icon={<CheckCircle className="w-6 h-6" />} color="green" />
+          <StatCard title="Pending" value={pending} icon={<Clock className="w-6 h-6" />} color="yellow" />
         </div>
 
         {/* Table */}
@@ -98,7 +99,7 @@ const UserRegistrations = () => {
           
           {registrations.length === 0 ? (
             <div className="text-center py-20 relative z-10">
-              <div className="text-6xl mb-6 filter drop-shadow-lg">📭</div>
+              <div className="flex justify-center mb-6 opacity-50"><Ticket className="w-16 h-16 filter drop-shadow-lg" /></div>
               <h3 className="text-xl font-bold text-white mb-2">No registrations found</h3>
               <p className="text-zinc-500 mb-8 max-w-md mx-auto">You haven't registered for any events yet. Discover upcoming events and secure your spot.</p>
               <Link to="/events" className="inline-flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-semibold transition-all shadow-lg shadow-indigo-500/20 hover:-translate-y-0.5">
@@ -145,7 +146,7 @@ const UserRegistrations = () => {
                             ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                             : 'bg-zinc-800 text-zinc-400 border-zinc-700'
                         }`}>
-                          {reg.checkedIn ? '✅ Checked In' : 'Pending'}
+                          {reg.checkedIn ? <><Check className="w-3.5 h-3.5" /> Checked In</> : 'Pending'}
                         </span>
                       </td>
                       <td className="px-6 py-5 align-middle text-zinc-400 text-sm hidden sm:table-cell">
@@ -211,8 +212,8 @@ const UserRegistrations = () => {
                   <h3 className="text-white font-bold text-xl mb-1">Edit Ticket</h3>
                   <p className="text-zinc-400 text-sm truncate max-w-[200px]">{editingReg.event?.title}</p>
                 </div>
-                <div className="w-10 h-10 bg-indigo-500/10 text-indigo-400 rounded-xl flex items-center justify-center text-xl">
-                  🎫
+                <div className="w-10 h-10 bg-indigo-500/10 text-indigo-400 rounded-xl flex items-center justify-center">
+                  <Ticket className="w-5 h-5" />
                 </div>
               </div>
               

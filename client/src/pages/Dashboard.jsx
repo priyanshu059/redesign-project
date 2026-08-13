@@ -1,6 +1,7 @@
 // src/pages/Dashboard.jsx - User Dashboard
 import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { ClipboardList, Calendar, CheckCircle2, Ticket, Search, Bot, User, ChevronRight } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import api from '../services/api';
 import StatCard from '../components/common/StatCard';
@@ -42,9 +43,9 @@ const Dashboard = () => {
 
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-          <StatCard title="Total Registrations" value={registrations.length} icon="📋" color="purple" />
-          <StatCard title="Upcoming Events" value={upcoming.length} icon="🗓️" color="blue" />
-          <StatCard title="Past Events" value={past.length} icon="✅" color="green" />
+          <StatCard title="Total Registrations" value={registrations.length} icon={<ClipboardList className="w-7 h-7" />} color="purple" />
+          <StatCard title="Upcoming Events" value={upcoming.length} icon={<Calendar className="w-7 h-7" />} color="blue" />
+          <StatCard title="Past Events" value={past.length} icon={<CheckCircle2 className="w-7 h-7" />} color="green" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -59,7 +60,7 @@ const Dashboard = () => {
             </div>
             {upcoming.length === 0 ? (
               <div className="text-center py-12 border-2 border-dashed border-zinc-800 rounded-2xl relative z-10">
-                <div className="text-4xl mb-3">🎫</div>
+                <div className="flex justify-center mb-4"><Ticket className="w-10 h-10 text-zinc-600" /></div>
                 <p className="text-zinc-400 mb-4">You have no upcoming events.</p>
                 <Link to="/events" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">Find an event to attend</Link>
               </div>
@@ -93,13 +94,13 @@ const Dashboard = () => {
           <div className="lg:col-span-1 flex flex-col gap-4">
             <h2 className="text-white font-bold text-xl tracking-tight mb-2">Quick Actions</h2>
             {[
-              { to: '/events', icon: '🔍', label: 'Browse Events', desc: 'Find new events to attend' },
-              { to: '/my-registrations', icon: '📋', label: 'My Registrations', desc: 'View all your tickets' },
-              { to: '/assistant', icon: '🤖', label: 'AI Assistant', desc: 'Get help from EventOps AI' },
-              { to: '/profile', icon: '👤', label: 'My Profile', desc: 'Manage your account' },
+              { to: '/events', icon: <Search className="w-6 h-6" />, label: 'Browse Events', desc: 'Find new events to attend' },
+              { to: '/my-registrations', icon: <ClipboardList className="w-6 h-6" />, label: 'My Registrations', desc: 'View all your tickets' },
+              { to: '/assistant', icon: <Bot className="w-6 h-6" />, label: 'AI Assistant', desc: 'Get help from EventOps AI' },
+              { to: '/profile', icon: <User className="w-6 h-6" />, label: 'My Profile', desc: 'Manage your account' },
             ].map(({ to, icon, label, desc }) => (
               <Link key={to} to={to} className="group bg-zinc-900/50 backdrop-blur-md hover:bg-zinc-800/80 border border-zinc-800 hover:border-indigo-500/30 rounded-2xl p-5 flex items-center gap-4 transition-all duration-300 hover:-translate-x-1">
-                <div className="w-12 h-12 bg-zinc-800 border border-zinc-700 text-2xl rounded-xl flex items-center justify-center shadow-sm group-hover:bg-indigo-500/20 group-hover:text-indigo-400 group-hover:border-indigo-500/30 transition-all">
+                <div className="w-12 h-12 bg-zinc-800 border border-zinc-700 text-zinc-400 rounded-xl flex items-center justify-center shadow-sm group-hover:bg-indigo-500/20 group-hover:text-indigo-400 group-hover:border-indigo-500/30 transition-all">
                   {icon}
                 </div>
                 <div>
@@ -107,7 +108,7 @@ const Dashboard = () => {
                   <p className="text-zinc-500 text-xs mt-0.5">{desc}</p>
                 </div>
                 <div className="ml-auto text-zinc-600 group-hover:text-indigo-400 transition-colors">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                  <ChevronRight className="w-5 h-5" />
                 </div>
               </Link>
             ))}

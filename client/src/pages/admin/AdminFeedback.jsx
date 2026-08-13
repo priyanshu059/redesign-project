@@ -4,11 +4,12 @@ import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
 import Spinner from '../../components/common/Spinner';
 import StatCard from '../../components/common/StatCard';
+import { Star, Check, ClipboardList, AlertTriangle, Search, BarChart3, MessageSquare, Calendar, Trash2, Award } from 'lucide-react';
 
 const StarRating = ({ rating }) => (
   <div className="flex gap-1">
     {[1, 2, 3, 4, 5].map(s => (
-      <span key={s} className={`text-base ${s <= rating ? 'text-amber-400 drop-shadow-[0_0_2px_rgba(251,191,36,0.6)]' : 'text-zinc-700'}`}>★</span>
+      <Star key={s} className={`w-4 h-4 ${s <= rating ? 'text-amber-400 fill-amber-400 drop-shadow-[0_0_2px_rgba(251,191,36,0.6)]' : 'text-zinc-700'}`} />
     ))}
   </div>
 );
@@ -62,7 +63,7 @@ const AdminFeedback = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
             <div>
               <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-                <span className="text-3xl">⭐</span> Feedback & Reviews
+                <Star className="w-8 h-8 text-amber-400" fill="currentColor" /> Feedback & Reviews
               </h1>
               <p className="text-zinc-400 mt-2 text-sm flex items-center gap-2">
                 <span className="bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded font-bold">{feedback.length}</span> reviews total 
@@ -74,17 +75,17 @@ const AdminFeedback = () => {
 
           {message && (
             <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl px-5 py-4 mb-6 text-sm flex items-start gap-3 shadow-sm">
-              <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+              <Check className="w-5 h-5 shrink-0 mt-0.5" />
               {message}
             </div>
           )}
 
           {/* Stats Row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <StatCard title="Total Reviews" value={feedback.length} icon="📝" color="indigo" />
-            <StatCard title="Average Rating" value={`${avgRating} / 5`} icon="⭐" color="amber" />
-            <StatCard title="5-Star Reviews" value={ratingDist[0].count} icon="🌟" color="green" />
-            <StatCard title="Critical Reviews" value={ratingDist[3].count + ratingDist[4].count} icon="⚠️" color="red" />
+            <StatCard title="Total Reviews" value={feedback.length} icon={<ClipboardList className="w-6 h-6" />} color="indigo" />
+            <StatCard title="Average Rating" value={`${avgRating} / 5`} icon={<Star className="w-6 h-6" />} color="amber" />
+            <StatCard title="5-Star Reviews" value={ratingDist[0].count} icon={<Award className="w-6 h-6" />} color="green" />
+            <StatCard title="Critical Reviews" value={ratingDist[3].count + ratingDist[4].count} icon={<AlertTriangle className="w-6 h-6" />} color="red" />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -94,7 +95,7 @@ const AdminFeedback = () => {
               {/* Filters */}
               <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                 <h3 className="text-white font-bold text-base mb-4 flex items-center gap-2">
-                  <span className="text-indigo-400">🔍</span> Search & Filter
+                  <Search className="w-5 h-5 text-indigo-400" /> Search & Filter
                 </h3>
                 
                 <div className="space-y-5">
@@ -106,7 +107,7 @@ const AdminFeedback = () => {
                       placeholder="Search reviews..."
                       className="w-full bg-zinc-950/50 border border-zinc-800 focus:border-amber-500 text-white placeholder-zinc-500 rounded-xl pl-10 pr-4 py-3 text-sm outline-none transition-colors shadow-inner" 
                     />
-                    <svg className="w-4 h-4 text-zinc-500 absolute left-4 top-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    <Search className="w-4 h-4 text-zinc-500 absolute left-4 top-3.5" />
                   </div>
                   
                   <div>
@@ -122,7 +123,7 @@ const AdminFeedback = () => {
                               : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 border border-zinc-700'
                           }`}
                         >
-                          {r === 0 ? 'All' : <>{r}<span className="text-[10px]">★</span></>}
+                          {r === 0 ? 'All' : <>{r}<Star className="w-3 h-3 inline pb-0.5" fill="currentColor" /></>}
                         </button>
                       ))}
                     </div>
@@ -133,14 +134,14 @@ const AdminFeedback = () => {
               {/* Rating Distribution */}
               <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                 <h3 className="text-white font-bold text-base mb-5 flex items-center gap-2">
-                  <span className="text-indigo-400">📊</span> Rating Distribution
+                  <BarChart3 className="w-5 h-5 text-indigo-400" /> Rating Distribution
                 </h3>
                 <div className="space-y-3">
                   {ratingDist.map(({ star, count, pct }) => (
                     <div key={star} className="flex items-center gap-3">
                       <div className="flex items-center gap-1 w-8">
                         <span className="text-zinc-300 text-sm font-medium">{star}</span>
-                        <span className="text-amber-500 text-xs">★</span>
+                        <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
                       </div>
                       <div className="flex-1 h-2.5 bg-zinc-800 rounded-full overflow-hidden shadow-inner">
                         <div 
@@ -174,7 +175,7 @@ const AdminFeedback = () => {
                     <div className="flex justify-center py-20"><Spinner /></div>
                   ) : filtered.length === 0 ? (
                     <div className="text-center py-20 relative z-10">
-                      <div className="text-6xl mb-6 filter drop-shadow-lg opacity-50">💭</div>
+                      <div className="flex justify-center mb-6 opacity-50"><MessageSquare className="w-16 h-16 filter drop-shadow-lg" /></div>
                       <h3 className="text-xl font-bold text-white mb-2">No feedback found</h3>
                       <p className="text-zinc-500">Try adjusting your search or filters.</p>
                       {(search || filterRating > 0) && (
@@ -200,7 +201,7 @@ const AdminFeedback = () => {
                                 </span>
                               </div>
                               <div className="text-xs font-medium text-indigo-400 flex items-center gap-1.5">
-                                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                <Calendar className="w-3 h-3" />
                                 {f.event?.title || 'Unknown Event'}
                               </div>
                             </div>
@@ -211,7 +212,7 @@ const AdminFeedback = () => {
                                 className="opacity-0 group-hover:opacity-100 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 text-xs p-1.5 rounded-lg transition-all"
                                 title="Delete Review"
                               >
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                <Trash2 className="w-4 h-4" />
                               </button>
                             </div>
                           </div>

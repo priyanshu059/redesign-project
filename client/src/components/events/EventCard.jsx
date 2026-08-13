@@ -1,6 +1,7 @@
 // src/components/events/EventCard.jsx - Event Display Card
 import { Link } from 'react-router-dom';
 import { getStatusColor } from '../../utils/helpers';
+import { MapPin, Clock, Users } from 'lucide-react';
 
 const EventCard = ({ event }) => {
   return (
@@ -23,15 +24,15 @@ const EventCard = ({ event }) => {
         {/* Details */}
         <div className="space-y-2 mb-6 mt-auto">
           <div className="flex items-center gap-2 text-sm text-zinc-400">
-            <span className="w-6 h-6 flex items-center justify-center bg-zinc-800 rounded-md text-xs border border-zinc-700/50">📍</span>
+            <span className="w-6 h-6 flex items-center justify-center bg-zinc-800 rounded-md border border-zinc-700/50"><MapPin className="w-3.5 h-3.5 text-zinc-400" /></span>
             <span className="truncate">{event.location || 'TBD'}</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-zinc-400">
-            <span className="w-6 h-6 flex items-center justify-center bg-zinc-800 rounded-md text-xs border border-zinc-700/50">🕐</span>
+            <span className="w-6 h-6 flex items-center justify-center bg-zinc-800 rounded-md border border-zinc-700/50"><Clock className="w-3.5 h-3.5 text-zinc-400" /></span>
             <span>{event.time || 'TBD'}</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-zinc-400">
-            <span className="w-6 h-6 flex items-center justify-center bg-zinc-800 rounded-md text-xs border border-zinc-700/50">👥</span>
+            <span className="w-6 h-6 flex items-center justify-center bg-zinc-800 rounded-md border border-zinc-700/50"><Users className="w-3.5 h-3.5 text-zinc-400" /></span>
             <span>Capacity: {event.capacity}</span>
           </div>
         </div>

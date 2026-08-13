@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
 import Spinner from '../../components/common/Spinner';
+import { Edit2, PlusCircle, Building, FileText, Settings, User } from 'lucide-react';
 
 const EMPTY = { name: '', address: '', city: '', capacity: 100, facilities: '', contactPerson: '', contactPhone: '', description: '' };
 
@@ -68,7 +69,7 @@ const AdminVenueForm = () => {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-                {isEdit ? '✏️ Edit Venue' : '➕ Add New Venue'}
+                <>{isEdit ? <Edit2 className="w-6 h-6 mr-2 inline" /> : <PlusCircle className="w-6 h-6 mr-2 inline" />} {isEdit ? 'Edit Venue' : 'Add New Venue'}</>
               </h1>
               <p className="text-zinc-500 text-sm mt-1">Configure venue details and contact information</p>
             </div>
@@ -92,7 +93,7 @@ const AdminVenueForm = () => {
                 <div className="lg:col-span-2 space-y-6">
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-indigo-400">🏢</span> Location Details
+                      <Building className="w-5 h-5 text-indigo-400" /> Location Details
                     </h3>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -105,7 +106,7 @@ const AdminVenueForm = () => {
 
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-indigo-400">📝</span> About
+                      <FileText className="w-5 h-5 text-indigo-400" /> About
                     </h3>
                     
                     <div>
@@ -123,7 +124,7 @@ const AdminVenueForm = () => {
                 <div className="space-y-6">
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-indigo-400">⚙️</span> Capacity
+                      <Settings className="w-5 h-5 text-indigo-400" /> Capacity
                     </h3>
                     
                     <div>
@@ -144,7 +145,7 @@ const AdminVenueForm = () => {
 
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-indigo-400">👤</span> Contact Info
+                      <User className="w-5 h-5 text-indigo-400" /> Contact Info
                     </h3>
                     
                     <div className="space-y-5">

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
 import Spinner from '../../components/common/Spinner';
+import { Handshake, CheckCircle, Clock, XCircle } from 'lucide-react';
 
 const TYPE_COLORS = {
   Platinum: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
@@ -20,9 +21,9 @@ const STATUS_COLORS = {
 };
 
 const STATUS_ICONS = {
-  Confirmed: '✅',
-  Pending: '⏳',
-  Cancelled: '❌',
+  Confirmed: <CheckCircle className="w-4 h-4 text-emerald-400" />,
+  Pending: <Clock className="w-4 h-4 text-amber-400" />,
+  Cancelled: <XCircle className="w-4 h-4 text-rose-400" />,
 };
 
 const AdminSponsorships = () => {
@@ -62,7 +63,7 @@ const AdminSponsorships = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
             <div>
               <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-                <span className="text-3xl">🤝</span> Manage Sponsorships
+                <Handshake className="w-8 h-8 text-indigo-400" /> Manage Sponsorships
               </h1>
               <div className="flex items-center gap-4 mt-3 text-sm">
                 <p className="text-zinc-400 flex items-center gap-2">
@@ -105,7 +106,7 @@ const AdminSponsorships = () => {
               
               {filtered.length === 0 ? (
                 <div className="text-center py-20 relative z-10">
-                  <div className="text-6xl mb-6 filter drop-shadow-lg opacity-50">🤝</div>
+                  <div className="flex justify-center mb-6 opacity-50"><Handshake className="w-16 h-16 filter drop-shadow-lg text-indigo-400" /></div>
                   <h3 className="text-xl font-bold text-white mb-2">No sponsorships found</h3>
                   <p className="text-zinc-500 mb-8 max-w-md mx-auto">
                     {search ? 'No sponsorships match your search criteria.' : "You haven't recorded any sponsorships yet."}

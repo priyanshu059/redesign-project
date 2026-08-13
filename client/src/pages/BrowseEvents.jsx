@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import api from '../services/api';
 import EventCard from '../components/events/EventCard';
 import Spinner from '../components/common/Spinner';
+import { Calendar, Ticket } from 'lucide-react';
 
 const BrowseEvents = () => {
   const [events, setEvents] = useState([]);
@@ -19,7 +20,7 @@ const BrowseEvents = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 text-center md:text-left">
           <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
-            📅 Upcoming Events
+            <Calendar className="w-4 h-4" /> Upcoming Events
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">Browse Events</h1>
           <p className="text-zinc-400 text-lg max-w-2xl">Discover and register for amazing upcoming events, conferences, and meetups managed by EventOps AI.</p>
@@ -27,7 +28,7 @@ const BrowseEvents = () => {
 
         {events.length === 0 ? (
           <div className="bg-zinc-900/30 border-2 border-dashed border-zinc-800 rounded-3xl p-16 text-center">
-            <div className="text-5xl mb-4">🎫</div>
+            <div className="flex justify-center mb-4"><Ticket className="w-12 h-12 text-zinc-500" /></div>
             <h3 className="text-xl font-bold text-white mb-2">No events found</h3>
             <p className="text-zinc-500">There are currently no events available for registration.</p>
           </div>

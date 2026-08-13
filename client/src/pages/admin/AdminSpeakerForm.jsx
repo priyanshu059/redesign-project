@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
 import Spinner from '../../components/common/Spinner';
+import { Edit2, PlusCircle, User, Mic } from 'lucide-react';
 
 const EMPTY = { name: '', bio: '', sessionTitle: '', schedule: '', availability: true };
 
@@ -55,7 +56,7 @@ const AdminSpeakerForm = () => {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-                {isEdit ? '✏️ Edit Speaker' : '➕ Add New Speaker'}
+                <>{isEdit ? <Edit2 className="w-6 h-6 mr-2 inline" /> : <PlusCircle className="w-6 h-6 mr-2 inline" />} {isEdit ? 'Edit Speaker' : 'Add New Speaker'}</>
               </h1>
               <p className="text-zinc-500 text-sm mt-1">Configure speaker profile and session details</p>
             </div>
@@ -79,7 +80,7 @@ const AdminSpeakerForm = () => {
                 {/* Profile Section */}
                 <div>
                   <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2 border-b border-zinc-800/80 pb-3">
-                    <span className="text-indigo-400">👤</span> Profile Details
+                    <User className="w-5 h-5 text-indigo-400" /> Profile Details
                   </h3>
                   
                   <div className="space-y-5">
@@ -106,7 +107,7 @@ const AdminSpeakerForm = () => {
                 {/* Session Section */}
                 <div className="pt-4">
                   <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2 border-b border-zinc-800/80 pb-3">
-                    <span className="text-indigo-400">🎙️</span> Session & Availability
+                    <Mic className="w-5 h-5 text-indigo-400" /> Session & Availability
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">

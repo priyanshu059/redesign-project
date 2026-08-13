@@ -5,7 +5,7 @@
 // Any component can use useContext(AuthContext) to know if a user is logged in.
 // ============================================================
 
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState } from 'react';
 
 // Create the context object
 export const AuthContext = createContext(null);

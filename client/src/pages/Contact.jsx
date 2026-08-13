@@ -1,19 +1,20 @@
 // src/pages/Contact.jsx — Contact Us page
 import { useState } from 'react';
 import api from '../services/api';
+import { MapPin, Mail, Phone, Clock, Briefcase, MessageSquare, Video, Link as LinkIcon, MessageCircle, CheckCircle } from 'lucide-react';
 
 const CONTACT_INFO = [
-  { icon: '📍', label: 'Address', value: '123 AI Boulevard, San Francisco, CA 94105' },
-  { icon: '✉️', label: 'Email', value: 'support@eventops.ai' },
-  { icon: '📞', label: 'Phone', value: '+1 (800) 123-4567' },
-  { icon: '🕐', label: 'Business Hours', value: 'Mon–Fri: 9:00 AM – 6:00 PM (PST)' },
+  { icon: <MapPin className="w-5 h-5 text-indigo-400" />, label: 'Address', value: '123 AI Boulevard, San Francisco, CA 94105' },
+  { icon: <Mail className="w-5 h-5 text-indigo-400" />, label: 'Email', value: 'support@eventops.ai' },
+  { icon: <Phone className="w-5 h-5 text-indigo-400" />, label: 'Phone', value: '+1 (800) 123-4567' },
+  { icon: <Clock className="w-5 h-5 text-indigo-400" />, label: 'Business Hours', value: 'Mon–Fri: 9:00 AM – 6:00 PM (PST)' },
 ];
 
 const SOCIAL = [
-  { icon: '🔗', label: 'LinkedIn', href: '#' },
-  { icon: '🐦', label: 'Twitter / X', href: '#' },
-  { icon: '▶️', label: 'YouTube', href: '#' },
-  { icon: '⚡', label: 'GitHub', href: '#' },
+  { icon: <Briefcase className="w-5 h-5" />, label: 'LinkedIn', href: '#' },
+  { icon: <MessageSquare className="w-5 h-5" />, label: 'Twitter / X', href: '#' },
+  { icon: <Video className="w-5 h-5" />, label: 'YouTube', href: '#' },
+  { icon: <LinkIcon className="w-5 h-5" />, label: 'GitHub', href: '#' },
 ];
 
 const Contact = () => {
@@ -46,7 +47,7 @@ const Contact = () => {
         {/* Hero */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-sm font-medium px-4 py-2 rounded-full mb-6">
-            💬 We'd love to hear from you
+            <MessageCircle className="w-4 h-4" /> We'd love to hear from you
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">Get in Touch</h1>
           <p className="text-zinc-400 text-lg max-w-2xl mx-auto leading-relaxed">
@@ -75,7 +76,7 @@ const Contact = () => {
                 {submitted ? (
                   <div className="text-center py-16 animate-fade-in">
                     <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/20">
-                      <span className="text-4xl">✅</span>
+                      <CheckCircle className="w-10 h-10 text-emerald-400" />
                     </div>
                     <h3 className="text-white font-bold text-2xl mb-3">Message Sent Successfully!</h3>
                     <p className="text-zinc-400 max-w-sm mx-auto mb-8 leading-relaxed">Thank you for reaching out. A member of our team will get back to you shortly.</p>
@@ -202,8 +203,8 @@ const Contact = () => {
             <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-8 shadow-xl flex-grow flex flex-col">
               <h3 className="text-white font-bold text-xl mb-6">Our Headquarters</h3>
               <div className="bg-zinc-950/50 border border-dashed border-zinc-700 rounded-2xl flex-grow flex flex-col items-center justify-center min-h-[200px] p-6 text-center group transition-colors hover:border-zinc-500">
-                <div className="w-16 h-16 bg-zinc-900 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform duration-300 shadow-inner">
-                  📍
+                <div className="w-16 h-16 bg-zinc-900 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                  <MapPin className="w-8 h-8 text-indigo-400" />
                 </div>
                 <p className="text-zinc-300 font-medium">Interactive Map View</p>
                 <p className="text-zinc-500 text-sm mt-2">Map embedding area</p>

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { Bot, BarChart3, Users, Shield, Zap, Briefcase, ArrowRight } from 'lucide-react';
 
 const STATS = [
   { count: 150, label: 'Events Managed', suffix: '+' },
@@ -11,10 +12,10 @@ const STATS = [
 ];
 
 const VALUES = [
-  { icon: '🤖', title: 'AI-Powered', desc: 'Six specialised agents work autonomously to handle every aspect of event operations.', gradient: 'from-indigo-500 to-violet-500' },
-  { icon: '📊', title: 'Real-time Intelligence', desc: 'Event health scores, bottleneck predictions, and optimisation recommendations in real time.', gradient: 'from-blue-500 to-cyan-500' },
-  { icon: '👥', title: 'Attendee Centric', desc: 'Seamless experiences with automated registration, check-in, and personalised notifications.', gradient: 'from-emerald-500 to-teal-500' },
-  { icon: '🛡️', title: 'Enterprise Ready', desc: 'Scalable, secure, with executive dashboards and multi-event management.', gradient: 'from-amber-500 to-orange-500' },
+  { icon: <Bot className="w-8 h-8 text-white" />, title: 'AI-Powered', desc: 'Six specialised agents work autonomously to handle every aspect of event operations.', gradient: 'from-indigo-500 to-violet-500' },
+  { icon: <BarChart3 className="w-8 h-8 text-white" />, title: 'Real-time Intelligence', desc: 'Event health scores, bottleneck predictions, and optimisation recommendations in real time.', gradient: 'from-blue-500 to-cyan-500' },
+  { icon: <Users className="w-8 h-8 text-white" />, title: 'Attendee Centric', desc: 'Seamless experiences with automated registration, check-in, and personalised notifications.', gradient: 'from-emerald-500 to-teal-500' },
+  { icon: <Shield className="w-8 h-8 text-white" />, title: 'Enterprise Ready', desc: 'Scalable, secure, with executive dashboards and multi-event management.', gradient: 'from-amber-500 to-orange-500' },
 ];
 
 const TEAM = [
@@ -78,7 +79,7 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-sm font-medium px-4 py-2 rounded-full mb-8">
-                🤖 About EventOps AI
+                <Bot className="w-4 h-4" /> About EventOps AI
               </div>
               <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.1] mb-6 tracking-tight">
                 Transforming Events with <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">AI Intelligence</span>
@@ -90,15 +91,15 @@ const About = () => {
                 sponsorship tracking, and incident handling — all in real time.
               </p>
               <div className="flex flex-wrap gap-3">
-                <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 text-sm px-4 py-2 rounded-full font-medium shadow-sm">🤖 AI Agents</span>
-                <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 text-sm px-4 py-2 rounded-full font-medium shadow-sm">⚡ Real-time</span>
-                <span className="bg-zinc-900 border border-zinc-800 text-zinc-300 text-sm px-4 py-2 rounded-full font-medium shadow-sm">📊 Intelligence</span>
+                <span className="flex items-center gap-1.5 bg-zinc-900 border border-zinc-800 text-zinc-300 text-sm px-4 py-2 rounded-full font-medium shadow-sm"><Bot className="w-4 h-4" /> AI Agents</span>
+                <span className="flex items-center gap-1.5 bg-zinc-900 border border-zinc-800 text-zinc-300 text-sm px-4 py-2 rounded-full font-medium shadow-sm"><Zap className="w-4 h-4 text-amber-400" /> Real-time</span>
+                <span className="flex items-center gap-1.5 bg-zinc-900 border border-zinc-800 text-zinc-300 text-sm px-4 py-2 rounded-full font-medium shadow-sm"><BarChart3 className="w-4 h-4 text-emerald-400" /> Intelligence</span>
               </div>
             </div>
             <div className="hidden lg:flex items-center justify-center relative">
               <div className="absolute inset-0 bg-indigo-500/20 blur-[100px] rounded-full"></div>
               <div className="w-80 h-80 bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-3xl flex items-center justify-center text-9xl shadow-2xl relative z-10 rotate-3 transition-transform hover:rotate-0 duration-500">
-                🤖
+                <Bot className="w-40 h-40 text-indigo-500/80 filter drop-shadow-lg" />
               </div>
             </div>
           </div>
@@ -152,7 +153,7 @@ const About = () => {
                 <p className="text-zinc-400 text-sm mt-1">{role}</p>
                 <div className="flex justify-center gap-3 mt-4">
                   <a href="#" className="text-zinc-500 hover:text-white transition-colors">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    <Briefcase className="w-5 h-5" />
                   </a>
                 </div>
               </div>
@@ -198,7 +199,7 @@ const About = () => {
                 className="inline-flex items-center gap-2 bg-white text-indigo-900 hover:bg-zinc-100 font-bold px-10 py-4 rounded-xl transition-all shadow-xl hover:shadow-indigo-500/25"
               >
                 Go to Dashboard
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                <ArrowRight className="w-5 h-5" />
               </Link>
             ) : (
               <Link
@@ -206,7 +207,7 @@ const About = () => {
                 className="inline-flex items-center gap-2 bg-white text-indigo-900 hover:bg-zinc-100 font-bold px-10 py-4 rounded-xl transition-all shadow-xl hover:shadow-indigo-500/25"
               >
                 Get Started Now
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                <ArrowRight className="w-5 h-5" />
               </Link>
             )}
           </div>

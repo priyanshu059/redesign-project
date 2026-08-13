@@ -29,6 +29,8 @@ import feedbackRoutes from './routes/feedbackRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import assistantRoutes from './routes/assistantRoutes.js';
 import intelligenceRoutes from './routes/intelligenceRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
+import reminderRoutes from './routes/reminderRoutes.js';
 
 // Create Express app
 const app = express();
@@ -75,6 +77,8 @@ app.use('/api/v1/feedback', feedbackRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
 app.use('/api/v1/assistant', assistantRoutes);
 app.use('/api/v1/intelligence', intelligenceRoutes);
+app.use('/api/v1/contact', contactRoutes);
+app.use('/api/v1/reminders', reminderRoutes);
 
 // JSON 404 for any unmatched /api/v1/... route
 app.all('/api/*', (req, res) => {

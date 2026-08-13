@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import Spinner from '../components/common/Spinner';
 import { formatDate, formatPrice } from '../utils/helpers';
+import { Ticket, Calendar, MapPin, DollarSign } from 'lucide-react';
 
 const UserRegisterEvent = () => {
   const { id } = useParams();
@@ -38,8 +39,8 @@ const UserRegisterEvent = () => {
         <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-500/10 rounded-2xl mb-4 text-2xl border border-indigo-500/20 shadow-sm">
-            🎫
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-500/10 rounded-2xl mb-4 border border-indigo-500/20 shadow-sm">
+            <Ticket className="w-8 h-8 text-indigo-400" />
           </div>
           <h1 className="text-2xl font-bold text-white mb-1 tracking-tight">Confirm Registration</h1>
           <p className="text-zinc-400 text-sm">You're about to register for this event</p>
@@ -49,15 +50,15 @@ const UserRegisterEvent = () => {
           <h2 className="text-white font-semibold text-lg mb-4">{event?.title}</h2>
           <div className="space-y-3 text-sm">
             <p className="text-zinc-300 flex items-center gap-3 border-b border-zinc-800/50 pb-3">
-              <span className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 shrink-0">📅</span> 
+              <span className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 shrink-0"><Calendar className="w-4 h-4" /></span> 
               {formatDate(event?.date)}
             </p>
             <p className="text-zinc-300 flex items-center gap-3 border-b border-zinc-800/50 pb-3">
-              <span className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 shrink-0">📍</span> 
+              <span className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 shrink-0"><MapPin className="w-4 h-4" /></span> 
               <span className="truncate">{event?.location}</span>
             </p>
             <p className="text-zinc-300 flex items-center gap-3">
-              <span className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 shrink-0">💰</span> 
+              <span className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 shrink-0"><DollarSign className="w-4 h-4" /></span> 
               {formatPrice(event?.price)}
             </p>
           </div>

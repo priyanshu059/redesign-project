@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
 import Spinner from '../../components/common/Spinner';
+import { Edit2, AlertTriangle, FileText, Settings, CheckCircle } from 'lucide-react';
 
 const EMPTY = { title: '', description: '', severity: 'Low', status: 'Open', resolution: '', event: '' };
 
@@ -70,7 +71,7 @@ const AdminIncidentForm = () => {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-                {isEdit ? '✏️ Edit Incident' : '⚠️ Report Incident'}
+                <>{isEdit ? <Edit2 className="w-6 h-6 mr-2 inline text-rose-400" /> : <AlertTriangle className="w-6 h-6 mr-2 inline text-rose-400" />} {isEdit ? 'Edit Incident' : 'Report Incident'}</>
               </h1>
               <p className="text-zinc-500 text-sm mt-1">Record issues, track severity, and manage resolutions</p>
             </div>
@@ -94,7 +95,7 @@ const AdminIncidentForm = () => {
                 <div className="lg:col-span-2 space-y-6">
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-rose-400">📄</span> Incident Report
+                      <FileText className="w-5 h-5 text-rose-400" /> Incident Report
                     </h3>
                     
                     <div className="space-y-5">
@@ -130,7 +131,7 @@ const AdminIncidentForm = () => {
                 <div className="space-y-6">
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-rose-400">⚙️</span> Assessment
+                      <Settings className="w-5 h-5 text-rose-400" /> Assessment
                     </h3>
                     
                     <div className="space-y-6">
@@ -170,7 +171,7 @@ const AdminIncidentForm = () => {
 
                   <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                      <span className="text-rose-400">✅</span> Resolution
+                      <CheckCircle className="w-5 h-5 text-rose-400" /> Resolution
                     </h3>
                     
                     <div>

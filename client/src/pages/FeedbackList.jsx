@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import api from '../services/api';
 import Spinner from '../components/common/Spinner';
 import { formatDate } from '../utils/helpers';
+import { Star, ArrowLeft, Check, MessageSquare, Calendar } from 'lucide-react';
 
 const FeedbackList = () => {
   const location = useLocation();
@@ -22,7 +23,13 @@ const FeedbackList = () => {
     } 
   }, [message]);
 
-  const stars = (n) => '★'.repeat(n) + '☆'.repeat(5 - n);
+  const stars = (n) => (
+    <div className="flex gap-1">
+      {[1, 2, 3, 4, 5].map(s => (
+        <Star key={s} className={`w-4 h-4 ${s <= n ? 'text-amber-400 fill-amber-400' : 'text-zinc-700'}`} />
+      ))}
+    </div>
+  );
 
   if (loading) return <div className="min-h-screen bg-[#09090b] flex items-center justify-center"><Spinner size="lg" /></div>;
 
@@ -32,26 +39,26 @@ const FeedbackList = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight flex items-center gap-3">
-              <span className="text-3xl">⭐</span> My Feedback
+              <Star className="w-8 h-8 text-amber-400" fill="currentColor" /> My Feedback
             </h1>
             <p className="text-zinc-400 mt-2 text-lg">Reviews and ratings you've shared</p>
           </div>
           <Link to="/dashboard" className="inline-flex items-center gap-2 text-zinc-400 hover:text-amber-400 text-sm font-medium transition-colors group">
-            <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Dashboard
           </Link>
         </div>
 
         {message && (
           <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl px-5 py-4 mb-8 text-sm flex items-start gap-3 shadow-lg">
-            <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+            <Check className="w-5 h-5 shrink-0 mt-0.5" />
             {message}
           </div>
         )}
 
         {feedbacks.length === 0 ? (
           <div className="bg-zinc-900/30 border-2 border-dashed border-zinc-800 rounded-3xl p-16 text-center">
-            <div className="text-5xl mb-4 opacity-50">💭</div>
+            <div className="flex justify-center mb-4 opacity-50"><MessageSquare className="w-12 h-12 text-zinc-500" /></div>
             <h3 className="text-xl font-bold text-white mb-2">No feedback yet</h3>
             <p className="text-zinc-500 mb-6 max-w-md mx-auto">You haven't submitted feedback for any events yet.</p>
             <Link to="/events" className="inline-flex items-center justify-center bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-3 rounded-xl font-medium transition-colors border border-zinc-700">
@@ -87,7 +94,7 @@ const FeedbackList = () => {
                 
                 <div className="flex justify-between items-center border-t border-zinc-800/80 pt-4">
                   <p className="text-xs text-zinc-500 flex items-center gap-1.5">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <Calendar className="w-4 h-4" />
                     {new Date(fb.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                   </p>
                   

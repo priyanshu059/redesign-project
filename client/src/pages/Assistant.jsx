@@ -1,13 +1,14 @@
 // src/pages/Assistant.jsx — AI Chat Assistant (Gemini-powered)
 import { useState, useRef, useEffect } from 'react';
+import { Bot, User, Calendar, ClipboardList, Building2, Mic, Bell, Send, Loader2 } from 'lucide-react';
 import api from '../services/api';
 
 const QUICK_ACTIONS = [
-  { label: '📅 Upcoming Events', msg: 'Show me upcoming events' },
-  { label: '📋 My Registrations', msg: 'Show my registrations' },
-  { label: '🏢 Venues', msg: 'List all venues' },
-  { label: '🎤 Speakers', msg: 'List all speakers' },
-  { label: '⏰ Set Reminder', msg: 'Remind me about the next event 1 hour before' },
+  { label: 'Upcoming Events', icon: <Calendar className="w-4 h-4 mr-1.5 inline" />, msg: 'Show me upcoming events' },
+  { label: 'My Registrations', icon: <ClipboardList className="w-4 h-4 mr-1.5 inline" />, msg: 'Show my registrations' },
+  { label: 'Venues', icon: <Building2 className="w-4 h-4 mr-1.5 inline" />, msg: 'List all venues' },
+  { label: 'Speakers', icon: <Mic className="w-4 h-4 mr-1.5 inline" />, msg: 'List all speakers' },
+  { label: 'Set Reminder', icon: <Bell className="w-4 h-4 mr-1.5 inline" />, msg: 'Remind me about the next event 1 hour before' },
 ];
 
 // ✅ Fixed: Safe renderer — converts markdown to React elements WITHOUT dangerouslySetInnerHTML
@@ -22,7 +23,7 @@ const SafeMessage = ({ text }) => {
   lines.forEach((line, i) => {
     // Detect bullet points
     if (line.trim().startsWith('• ') || line.trim().startsWith('- ')) {
-      const content = line.replace(/^[•\-]\s*/, '');
+      const content = line.replace(/^[•-]\s*/, '');
       elements.push(
         <li key={i} className="ml-4 list-disc mt-1 text-zinc-300">
           {renderBold(content)}
@@ -55,7 +56,7 @@ const Assistant = () => {
     {
       id: 0,
       sender: 'assistant',
-      text: "👋 Hello! I'm your EventOps AI assistant. I can help you with event details, registrations, venues, speakers, and reminders. Just ask or click a quick action!",
+      text: "Hello! I'm your EventOps AI assistant. I can help you with event details, registrations, venues, speakers, and reminders. Just ask or click a quick action!",
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ]);
@@ -92,7 +93,7 @@ const Assistant = () => {
         {
           id: Date.now() + 2,
           sender: 'assistant',
-          text: data.reply || '🤖 No response.',
+          text: data.reply || 'No response.',
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         },
       ]);
@@ -102,7 +103,7 @@ const Assistant = () => {
         {
           id: Date.now() + 2,
           sender: 'assistant',
-          text: '⚠️ Sorry, I encountered an error. Please try again.',
+          text: 'Sorry, I encountered an error. Please try again.',
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         },
       ]);
@@ -116,7 +117,7 @@ const Assistant = () => {
     setMessages([{
       id: 0,
       sender: 'assistant',
-      text: "👋 Hello! I'm your EventOps AI assistant. How can I help you today?",
+      text: "Hello! I'm your EventOps AI assistant. How can I help you today?",
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     }]);
   };
@@ -138,7 +139,7 @@ const Assistant = () => {
           
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
-              🤖
+              <Bot className="w-7 h-7" />
             </div>
             <div>
               <h1 className="text-white font-bold text-xl tracking-tight">EventOps AI</h1>
@@ -159,13 +160,14 @@ const Assistant = () => {
 
         {/* Quick Actions */}
         <div className="bg-zinc-900/60 backdrop-blur-md border-x border-zinc-800 px-6 py-4 flex flex-wrap gap-2.5 flex-shrink-0">
-          {QUICK_ACTIONS.map(({ label, msg }) => (
+          {QUICK_ACTIONS.map(({ label, msg, icon }) => (
             <button
               key={msg}
               onClick={() => sendMessage(msg)}
               disabled={sending}
-              className="bg-zinc-950/50 hover:bg-indigo-500/10 border border-zinc-800 hover:border-indigo-500/40 text-zinc-400 hover:text-indigo-300 text-xs font-medium px-4 py-2 rounded-xl transition-all duration-200 disabled:opacity-50 whitespace-nowrap shadow-sm hover:shadow-indigo-500/5 hover:-translate-y-0.5"
+              className="bg-zinc-950/50 hover:bg-indigo-500/10 border border-zinc-800 hover:border-indigo-500/40 text-zinc-400 hover:text-indigo-300 text-xs font-medium px-4 py-2 rounded-xl transition-all duration-200 disabled:opacity-50 whitespace-nowrap shadow-sm hover:shadow-indigo-500/5 hover:-translate-y-0.5 flex items-center"
             >
+              {icon}
               {label}
             </button>
           ))}
@@ -176,7 +178,9 @@ const Assistant = () => {
           {messages.map((msg) => {
             if (msg.sender === 'typing') return (
               <div key={msg.id} className="flex items-end gap-3 animate-fade-in-up">
-                <div className="w-10 h-10 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-xl flex items-center justify-center text-lg flex-shrink-0">🤖</div>
+                <div className="w-10 h-10 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-xl flex items-center justify-center text-lg flex-shrink-0">
+                  <Bot className="w-5 h-5" />
+                </div>
                 <div className="bg-zinc-900 border border-zinc-800 rounded-2xl rounded-bl-sm px-5 py-4 flex gap-1.5 items-center shadow-md">
                   {[0, 1, 2].map(i => (
                     <span key={i} className="w-2.5 h-2.5 bg-indigo-500/50 rounded-full inline-block animate-bounce" style={{ animationDelay: `${i * 0.15}s` }} />
@@ -193,7 +197,7 @@ const Assistant = () => {
                     ? 'bg-indigo-500 text-white border-indigo-600' 
                     : 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20'
                 }`}>
-                  {isUser ? '👤' : '🤖'}
+                  {isUser ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
                 </div>
                 
                 <div className={`group max-w-[80%] sm:max-w-[70%] relative ${isUser ? 'items-end' : 'items-start'} flex flex-col`}>
@@ -243,9 +247,9 @@ const Assistant = () => {
             title="Send Message"
           >
             {sending ? (
-              <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+              <Loader2 className="animate-spin h-6 w-6 text-white" />
             ) : (
-              <svg className="w-6 h-6 ml-1 -mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+              <Send className="w-5 h-5 ml-1 -mr-1" />
             )}
           </button>
         </div>

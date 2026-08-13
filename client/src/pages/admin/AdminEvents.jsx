@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import Sidebar from '../../components/admin/Sidebar';
 import Spinner from '../../components/common/Spinner';
-import { getStatusColor, formatDate } from '../../utils/helpers';
+import { formatDate } from '../../utils/helpers';
+import { Calendar, ClipboardList, MapPin } from 'lucide-react';
 
 const AdminEvents = () => {
   const [events, setEvents] = useState([]);
@@ -34,7 +35,7 @@ const AdminEvents = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
             <div>
               <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-                <span className="text-3xl">📅</span> Manage Events
+                <Calendar className="w-8 h-8 text-indigo-400" /> Manage Events
               </h1>
               <p className="text-zinc-400 mt-2 text-sm">Create, edit, and organize all events</p>
             </div>
@@ -59,7 +60,7 @@ const AdminEvents = () => {
               
               {events.length === 0 ? (
                 <div className="text-center py-20 relative z-10">
-                  <div className="text-6xl mb-6 filter drop-shadow-lg opacity-50">📋</div>
+                  <div className="flex justify-center mb-6 opacity-50"><ClipboardList className="w-16 h-16 filter drop-shadow-lg" /></div>
                   <h3 className="text-xl font-bold text-white mb-2">No events found</h3>
                   <p className="text-zinc-500 mb-8 max-w-md mx-auto">You haven't created any events yet.</p>
                   <Link to="/admin/events/add" className="inline-flex items-center justify-center bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-3 rounded-xl font-medium transition-colors border border-zinc-700">
@@ -93,7 +94,7 @@ const AdminEvents = () => {
                           </td>
                           <td className="px-6 py-4 align-middle">
                             <div className="text-zinc-400 text-sm flex items-center gap-1.5 max-w-[150px] truncate" title={ev.location}>
-                              <span className="text-indigo-400/70">📍</span> {ev.location}
+                              <MapPin className="w-4 h-4 text-indigo-400/70 shrink-0" /> <span className="truncate">{ev.location}</span>
                             </div>
                           </td>
                           <td className="px-6 py-4 align-middle">
